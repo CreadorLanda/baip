@@ -1,0 +1,222 @@
+summary = "Linear algebra, calculus and probability — the language every model in this roadmap is written in."
+exam = [
+  "Compute the eigenvalues and eigenvectors of [[3, 1], [0, 2]] and explain what they mean geometrically",
+  "Derive dL/dw for L(w) = (σ(w·x) − y)² by hand",
+  "Solve a medical-test Bayes problem with a 2% base rate, 95% sensitivity and 90% specificity",
+  "Implement gradient descent for linear regression from an empty file and make it converge",
+  "Compute the cross-entropy loss of a 3-class prediction by hand",
+]
+
+[task.vectors]
+goals = [
+  "See a vector both as an arrow and as a list of numbers, and switch between the two views",
+  "Compute norms, dot products and the angle between two vectors by hand",
+  "Explain why the dot product measures how much two vectors point the same way",
+  "Explain why cosine similarity is used to compare embeddings",
+]
+exercises = [
+  "For u = (1, 2, 2) and v = (2, 0, 1) compute u + v, 3u, |u|, u · v and the angle between them. *(Answer: (3, 2, 3), (3, 6, 6), 3, 4, ≈ 53.4°)*",
+  "Find a non-zero vector orthogonal to (2, −1, 3).",
+  "Normalize (6, 8) to a unit vector. *(Answer: (0.6, 0.8))*",
+  "Project a = (3, 4) onto b = (1, 1). *(Answer: (3.5, 3.5))*",
+  "Code: implement `add`, `scale`, `dot`, `norm` and `cosine_similarity` in pure Python (lists only) and check them against NumPy on 1 000 random vectors with `np.allclose`.",
+]
+check = [
+  "Explain, without formulas, what a negative dot product means",
+  "Explain why cosine similarity ignores vector length and when that is useful",
+  "Explain where the formula cos θ = a·b / (|a||b|) comes from",
+]
+
+[task.matrices]
+goals = [
+  "Predict the output shape of a product before computing it",
+  "Multiply 2×2 and 2×3 matrices by hand",
+  "Compute a 2×2 inverse and verify A · A⁻¹ = I",
+  "Read a neural-network layer y = Wx + b as a matrix operation",
+]
+exercises = [
+  "If X is 32×784 (a batch of images) and W is 784×128, what is the shape of XW? Can you compute WX? *(Answer: 32×128; no — inner dimensions 128 and 32 don't match)*",
+  "Compute [[2, 0, 1], [1, 3, 2]] · [[1], [0], [4]]. *(Answer: [[6], [9]])*",
+  "Find the inverse of [[4, 7], [2, 6]] and check that A · A⁻¹ = I. *(Answer: [[0.6, −0.7], [−0.2, 0.4]])*",
+  "Show with an example that (AB)ᵀ = BᵀAᵀ and that (AB)ᵀ ≠ AᵀBᵀ in general.",
+  "Code: implement `matmul`, `transpose`, `identity(n)` and `inverse_2x2` in pure Python, with tests against NumPy and an error for singular matrices.",
+]
+check = [
+  "Explain matrix multiplication as rows of A dotted with columns of B",
+  "Explain geometrically why [[1, 2], [2, 4]] has no inverse",
+  "Read `y = W @ x + b` in PyTorch and state the shape of every term",
+]
+
+[task.linear-systems]
+goals = [
+  "Solve a 3×3 system with Gaussian elimination",
+  "Read the columns of a matrix as where the basis vectors land",
+  "Decide whether a set of vectors is linearly independent",
+  "Relate the rank of A to the number of solutions of Ax = b",
+]
+exercises = [
+  "Solve with Gaussian elimination: x + y + z = 6, 2y + 5z = −4, 2x + 5y − z = 27. *(Answer: x = 5, y = 3, z = −2)*",
+  "Write the matrix that rotates by 90° and the one that scales x by 2. Apply \"first rotate, then scale\" to (1, 1). *(Answer: (−2, 1))*",
+  "Are (1, 2, 3), (4, 5, 6), (7, 8, 9) linearly independent? What is the rank? *(Answer: no, rank 2)*",
+  "Give one system with no solution and one with infinitely many; explain each with rank.",
+  "Code: implement Gaussian elimination with partial pivoting and compare with `np.linalg.solve` on random 5×5 systems.",
+]
+check = [
+  "Explain what \"the columns of A are where the basis vectors land\" means",
+  "Explain the difference between a basis and a spanning set",
+  "Predict from the rank alone whether Ax = b can have a unique solution",
+]
+
+[task.eigen-svd-pca]
+goals = [
+  "Compute eigenvalues and eigenvectors of a 2×2 matrix by hand",
+  "Explain eigenvectors as the directions a matrix only stretches",
+  "Explain how PCA uses the eigenvectors of the covariance matrix (or the SVD)",
+  "Reduce a dataset with PCA and report the explained variance",
+]
+exercises = [
+  "Find the eigenvalues and eigenvectors of [[4, 1], [2, 3]]. *(Answer: λ = 5 with (1, 1); λ = 2 with (1, −2))*",
+  "What are the eigenvalues of a 90° rotation? What does that mean geometrically? *(Answer: ±i — no real direction is preserved)*",
+  "Compute det([[3, 1], [2, 4]]) and say what it does to the area of the unit square. *(Answer: 10 — areas are multiplied by 10)*",
+  "Code: generate 200 2D points stretched along y = x, run PCA from scratch (center → covariance → eigendecomposition), plot the components and report the explained variance ratio.",
+  "Code: compress a grayscale image with truncated SVD (k = 5, 20, 50) and compare quality vs storage.",
+]
+check = [
+  "Explain why PCA keeps the eigenvector with the largest eigenvalue first",
+  "Explain the relation between SVD and PCA",
+  "Explain what a zero eigenvalue says about a matrix",
+]
+
+[task.derivatives]
+goals = [
+  "Differentiate common functions by hand",
+  "Explain the derivative as the slope of the tangent line",
+  "Approximate derivatives numerically and understand the error",
+  "Derive the derivative of the sigmoid",
+]
+exercises = [
+  "Differentiate 5x⁴ − 3x + 7, x·eˣ, ln(x² + 1) and (x + 1)/(x − 1). *(Answer: 20x³ − 3; eˣ(1 + x); 2x/(x² + 1); −2/(x − 1)²)*",
+  "Estimate lim (x→0) sin(x)/x with a table of values and explain the result.",
+  "Prove that σ'(x) = σ(x)(1 − σ(x)).",
+  "Code: write `numerical_derivative(f, x, h)` with forward and central differences; plot the error vs h (1e-1 … 1e-12) on a log-log scale and explain why the error grows again for very small h.",
+]
+check = [
+  "Explain the derivative with the \"zoom in until the curve looks straight\" picture",
+  "Explain why central differences are more accurate than forward differences",
+  "Say where ReLU's derivative is undefined and how frameworks handle it",
+]
+
+[task.gradient]
+goals = [
+  "Compute partial derivatives and gradients",
+  "Explain why the gradient points uphill and is perpendicular to contour lines",
+  "Read a contour plot",
+  "Derive the gradient of the MSE loss with respect to the weights",
+]
+exercises = [
+  "Compute ∇f for f(x, y) = x²y + sin(y) and evaluate it at (1, 0). *(Answer: (2xy, x² + cos y) → (0, 2))*",
+  "For f(x, y) = x² + y², compute the directional derivative at (1, 1) along (1, 0) and along (1, 1)/√2. Which is larger and why? *(Answer: 2 and 2√2 ≈ 2.83 — the second is the gradient direction)*",
+  "For L(w, b) = (1/n) Σ (w·xᵢ + b − yᵢ)², derive ∂L/∂w and ∂L/∂b. *(Answer: (2/n) Σ (ŷᵢ − yᵢ)·xᵢ and (2/n) Σ (ŷᵢ − yᵢ))*",
+  "Code: plot the contours of f(x, y) = x² + 3y² with matplotlib, overlay the gradient field with `quiver`, and check the arrows are perpendicular to the contours.",
+]
+check = [
+  "Explain why the gradient is perpendicular to level curves",
+  "Explain why training moves along −∇L",
+  "Verify an analytic gradient with a numerical one (gradient check)",
+]
+
+[task.chain-rule]
+goals = [
+  "Apply the chain rule to nested functions",
+  "Draw a computational graph and backpropagate gradients through it by hand",
+  "Build the Jacobian of a vector-valued function",
+  "Explain why reverse mode is efficient for losses with many inputs and one output",
+]
+exercises = [
+  "Differentiate sin(x²)·e^(3x) and (3x + 1)⁵. *(Answer: 2x·cos(x²)·e^(3x) + 3·sin(x²)·e^(3x); 15(3x + 1)⁴)*",
+  "Compute the Jacobian of f(x, y) = (x²y, 5x + sin y). *(Answer: [[2xy, x²], [5, cos y]])*",
+  "Draw the graph of L = (σ(w₂·relu(w₁·x)) − y)² and compute ∂L/∂w₁ and ∂L/∂w₂ by hand for x = 1, w₁ = 2, w₂ = −1, y = 0. *(Answer: ∂L/∂w₂ ≈ 0.050, ∂L/∂w₁ ≈ −0.025)*",
+  "Code: verify your hand-computed gradients with PyTorch `loss.backward()` and with a numerical gradient check.",
+]
+check = [
+  "Explain backprop as the chain rule applied from the loss backwards, reusing intermediate results",
+  "Say what shape the Jacobian of f: ℝⁿ → ℝᵐ has",
+  "Explain why frameworks compute vector–Jacobian products instead of full Jacobians",
+]
+
+[task.gradient-descent]
+goals = [
+  "Implement gradient descent from scratch",
+  "Diagnose the learning rate from a loss curve",
+  "Explain convexity and why it matters",
+  "Compare plain GD, momentum and Adam on a simple function",
+]
+exercises = [
+  "For f(x) = x², find the learning rates η for which gradient descent converges. *(Answer: 0 < η < 1)*",
+  "Minimize f(x, y) = (x − 3)² + 10(y + 1)² from (0, 0) with η = 0.01, 0.05 and 0.1. Plot each path on a contour plot. Why does η = 0.1 never converge in y?",
+  "Implement momentum and compare the number of steps to reach |∇f| < 1e-6 with plain GD.",
+  "Code: fit y = wx + b to 100 noisy points with mini-batch SGD (batch size 10) and plot the loss curve.",
+]
+check = [
+  "Look at a loss curve and say whether the learning rate is too high, too low or fine",
+  "Explain why non-convex neural-network losses still train well with SGD",
+  "Explain in one sentence what momentum adds",
+]
+
+[task.probability-bayes]
+goals = [
+  "Compute conditional probabilities from a table or a tree",
+  "Use Bayes' theorem to update a belief with evidence",
+  "Spot the base-rate fallacy",
+  "Build a naive Bayes spam filter from word counts",
+]
+exercises = [
+  "Two dice are rolled. Compute P(sum = 7) and P(sum = 7 | first die = 3). Are the events independent? *(Answer: 1/6 and 1/6 — yes)*",
+  "An urn has 3 red and 2 blue balls; draw two without replacement. P(both red)? P(second red | first blue)? *(Answer: 3/10; 3/4)*",
+  "20% of emails are spam. \"free\" appears in 60% of spam and 5% of normal emails. P(spam | \"free\")? *(Answer: 0.75)*",
+  "Code: build a word-count naive Bayes spam filter with Laplace smoothing on the SMS Spam Collection dataset and report its accuracy.",
+]
+check = [
+  "Explain prior, likelihood and posterior with the medical-test example",
+  "Explain why naive Bayes is called \"naive\"",
+  "Explain the difference between P(A|B) and P(B|A) with a real example",
+]
+
+[task.distributions]
+goals = [
+  "Compute expectation and variance of discrete random variables",
+  "Recognize which distribution fits a situation",
+  "Simulate distributions and compare with theory",
+  "Explain the central limit theorem",
+]
+exercises = [
+  "A coin with P(heads) = 0.3 is flipped 10 times. Compute P(exactly 3 heads), E[heads] and Var(heads). *(Answer: ≈ 0.267; 3; 2.1)*",
+  "If X ~ N(100, 15²), what fraction of values falls between 85 and 130? *(Answer: ≈ 81.9%)*",
+  "Prove that Var(aX + b) = a² Var(X).",
+  "Code: simulate the mean of n dice rolls (n = 1, 2, 10, 50) 10 000 times and plot the histograms — watch the central limit theorem happen.",
+  "Code: on the Iris dataset, compute mean, variance and the correlation matrix from scratch and compare with NumPy / pandas.",
+]
+check = [
+  "Explain the difference between a PDF value and a probability",
+  "Explain why the normal distribution shows up everywhere",
+  "Explain why correlation does not imply causation, with an example",
+]
+
+[task.entropy-kl]
+goals = [
+  "Compute entropy, cross-entropy and KL divergence by hand",
+  "Explain entropy as average surprise, measured in bits",
+  "Explain why minimizing cross-entropy = maximizing likelihood",
+  "Implement a numerically stable softmax + cross-entropy",
+]
+exercises = [
+  "Compute the entropy in bits of [0.5, 0.25, 0.25] and of [0.9, 0.05, 0.05]. Which is more uncertain? *(Answer: 1.5 bits; ≈ 0.569 bits)*",
+  "For p = [0.5, 0.5] and q = [0.9, 0.1] compute D_KL(p‖q) and D_KL(q‖p) in nats. *(Answer: ≈ 0.511 and ≈ 0.368 — not symmetric)*",
+  "Show that cross-entropy with a one-hot label equals −log(probability of the correct class).",
+  "Code: implement `softmax` and `cross_entropy(logits, label)` with the log-sum-exp trick; test with logits [1000, 1001, 1002] (the naive version overflows) and compare with `torch.nn.functional.cross_entropy`.",
+]
+check = [
+  "Explain entropy as the average number of yes/no questions needed",
+  "Explain why KL ≥ 0 and when it equals 0",
+  "Explain why classification uses cross-entropy instead of MSE",
+]

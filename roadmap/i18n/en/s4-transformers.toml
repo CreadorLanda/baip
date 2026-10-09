@@ -1,0 +1,67 @@
+summary = "From attention to your own tiny language model, written and trained from scratch."
+exam = [
+  "Derive scaled dot-product attention on paper and explain every term",
+  "Implement multi-head causal self-attention from an empty file",
+  "Generate text with your own trained model and report its validation perplexity",
+  "Walk through the full forward pass of a decoder-only Transformer, with shapes",
+]
+
+[task.attention]
+goals = [
+  "Compute attention by hand on a tiny example",
+  "Implement batched attention with a causal mask",
+  "Explain why scores are divided by √dₖ",
+  "Visualize and interpret attention weights",
+]
+exercises = [
+  "Finish the worked example: compute the softmax weights of the first row and its output vector. *(Answer: ≈ [0.40, 0.20, 0.40] → output ≈ [0.80, 0.60])*",
+  "Code: implement `attention(Q, K, V, mask=None)` in NumPy for inputs of shape (batch, seq, d) and test it against `torch.nn.functional.scaled_dot_product_attention`.",
+  "Draw random Q and K with d = 4, 64 and 512 and compare the softmax with and without the √dₖ scaling. What happens to the weights?",
+  "Implement the causal mask and prove that token t can't see tokens after t (change a future token and check earlier outputs stay the same).",
+  "Plot the attention-weight matrix of a short sentence as a heatmap.",
+]
+check = [
+  "Explain Q, K and V with the search-engine analogy",
+  "Explain why attention costs O(n²) in sequence length",
+  "Explain what the causal mask is for",
+]
+
+[task.transformer-block]
+goals = [
+  "Implement multi-head attention from scratch",
+  "Assemble a full Transformer block",
+  "Explain what residuals and LayerNorm do in deep stacks",
+  "Count a block's parameters by hand",
+]
+exercises = [
+  "Code: implement `MultiHeadAttention` in PyTorch without `nn.MultiheadAttention`; check the output shape for batch = 2, seq = 10, d = 64, heads = 4.",
+  "Implement sinusoidal positional encoding and plot it. Show that without positions self-attention is permutation-equivariant (shuffle the input → the outputs shuffle the same way).",
+  "Assemble a pre-LN decoder block (attention, FFN, residuals, LayerNorm) and run a forward pass.",
+  "Count the parameters of your block by hand and compare with `sum(p.numel() for p in block.parameters())`.",
+  "Read sections 3.1–3.5 of \"Attention Is All You Need\" and write a one-page summary in `papers/`.",
+]
+check = [
+  "Explain why several heads help",
+  "Explain what residual connections and LayerNorm do",
+  "Explain encoder-only (BERT) vs decoder-only (GPT) vs encoder-decoder (T5)",
+]
+
+[task.tiny-llm]
+goals = [
+  "Implement a simple BPE tokenizer",
+  "Build and train a GPT-style model",
+  "Generate text with different sampling strategies",
+  "Measure loss and perplexity on held-out text",
+]
+exercises = [
+  "Code: implement byte-pair encoding: learn merges on a small corpus, write `encode` / `decode` and check `decode(encode(s)) == s`.",
+  "Build a GPT-style model (embedding, positions, N decoder blocks, LM head) and train it on Tiny Shakespeare (~1 MB).",
+  "Track training / validation loss and perplexity, and save checkpoints.",
+  "Implement greedy, temperature, top-k and top-p sampling; generate 200 tokens with each and compare.",
+  "Ablation: 2 vs 4 vs 6 layers, or context 64 vs 256 — make a table of validation loss.",
+]
+check = [
+  "Explain why the model is trained to predict the next token",
+  "Explain why the loss at initialization should be ≈ ln(vocab_size)",
+  "Explain the trade-offs between temperature, top-k and top-p",
+]

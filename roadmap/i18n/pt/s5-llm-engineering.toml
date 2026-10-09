@@ -1,0 +1,66 @@
+summary = "Trabalhar com LLMs reais: tokenizers, o ecossistema Hugging Face, fine-tuning eficiente e retrieval-augmented generation."
+exam = [
+  "Fazer fine-tuning de um modelo pequeno com LoRA e mostrar respostas antes / depois em prompts de validação",
+  "Construir, a partir de um ficheiro vazio, um sistema RAG sobre as tuas notas que responde com citações",
+  "Medir o recall@k do retrieval num conjunto de perguntas teu",
+  "Explicar quando usar prompting, RAG ou fine-tuning — com um exemplo de cada",
+]
+
+[task.tokenizers-hf]
+goals = [
+  "Comparar tokenizers e explicar os seus trade-offs",
+  "Carregar e correr modelos do Hugging Face Hub",
+  "Processar datasets de forma eficiente com `datasets`",
+  "Estimar a memória que um modelo precisa em cada dtype",
+]
+exercises = [
+  "Tokeniza o mesmo parágrafo em inglês e em português com o tokenizer do GPT-2, de um modelo da família Llama e de um multilingue; compara o número de tokens. Porque é que o português costuma gastar mais tokens?",
+  "Treina o teu próprio tokenizer BPE com a biblioteca `tokenizers` e compara o vocabulário com o teu BPE feito do zero na etapa 4.",
+  "Carrega um dataset com `datasets`, tokeniza-o com `.map(batched=True)`, filtra os exemplos longos e guarda-o em disco.",
+  "Calcula a memória necessária para os pesos de um modelo de 7B parâmetros em fp32, fp16 e 4-bit. *(Resposta: ≈ 28 GB, 14 GB, 3.5 GB)*",
+  "Aplica um chat template (`tok.apply_chat_template`) e inspeciona a string exata que o modelo vê.",
+]
+check = [
+  "Explicar porque é que a tokenização em subpalavras é melhor que por palavras ou por caracteres",
+  "Explicar o que a attention mask faz com o padding",
+  "Ler um model card e encontrar a licença, os dados de treino, o tamanho de contexto e o uso previsto",
+]
+
+[task.fine-tuning]
+goals = [
+  "Explicar a matemática por trás do LoRA",
+  "Fazer fine-tuning de um modelo pequeno com LoRA usando `peft`",
+  "Comparar o comportamento do modelo antes e depois do fine-tuning",
+  "Explicar como o QLoRA poupa memória",
+]
+exercises = [
+  "Calcula os parâmetros treináveis de LoRA com r = 16 nas projeções q e v de um modelo com 24 camadas e d = 2048. *(Resposta: 24 · 2 · (2 · 2048 · 16) ≈ 3.1 M)*",
+  "Código: implementa uma camada `LoRALinear` em PyTorch (W congelado, A e B treináveis, B inicializado a zero) e confirma que a saída inicial é igual à da camada base.",
+  "Faz fine-tuning de um modelo pequeno (ex.: SmolLM2-135M ou Qwen2.5-0.5B) com LoRA num dataset de instruções usando `peft` + o `SFTTrainer` do `trl`; compara respostas em 10 prompts de validação antes e depois.",
+  "Experimenta QLoRA (base em 4-bit com `bitsandbytes`) e compara memória da GPU e velocidade com LoRA em fp16.",
+  "Escreve como avaliaste o modelo e o que correu mal.",
+]
+check = [
+  "Explicar porque é que o LoRA funciona (os updates de pesos são quase low-rank)",
+  "Explicar porque é que B é inicializado a zero",
+  "Explicar quando fazer fine-tuning vs prompting vs usar RAG",
+]
+
+[task.rag]
+goals = [
+  "Construir um pipeline RAG sem framework",
+  "Medir a qualidade do retrieval com recall@k",
+  "Melhorar o retrieval com tamanho de chunk, pesquisa híbrida e reranking",
+  "Fazer o modelo responder com citações e dizer \"não sei\"",
+]
+exercises = [
+  "Código: constrói um RAG mínimo sem framework: divide as tuas notas de `studies/` em chunks, gera embeddings (ex.: `sentence-transformers/all-MiniLM-L6-v2`), guarda os vetores em NumPy, faz retrieval com cosine similarity (etapa 1!) e responde com um LLM.",
+  "Escreve 20 perguntas com o chunk de origem correto; mede recall@1 e recall@5 para chunks de 200, 500 e 1 000 tokens.",
+  "Junta BM25, combina com o retrieval denso (híbrido) e depois junta um reranker cross-encoder; reporta a mudança no recall.",
+  "Faz o modelo citar os ids dos chunks e testa uma pergunta cuja resposta não está nos documentos.",
+]
+check = [
+  "Explicar como o tamanho do chunk afeta o retrieval e as respostas",
+  "Explicar porque é que um reranker ajuda e quanto custa",
+  "Distinguir uma falha de retrieval de uma falha de geração",
+]

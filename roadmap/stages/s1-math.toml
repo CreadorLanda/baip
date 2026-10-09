@@ -1,0 +1,279 @@
+id = "s1"
+title = "Math foundations"
+months = "1–3"
+studies = "studies/stage-1-math"
+projects = ["projects/01-math-from-scratch"]
+resources = [
+  { title = "3Blue1Brown — Essence of Linear Algebra", url = "https://www.3blue1brown.com/topics/linear-algebra" },
+  { title = "3Blue1Brown — Essence of Calculus", url = "https://www.3blue1brown.com/topics/calculus" },
+  { title = "Gilbert Strang — MIT 18.06 Linear Algebra", url = "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/" },
+  { title = "Deisenroth, Faisal, Ong — Mathematics for Machine Learning (free book)", url = "https://mml-book.github.io/" },
+  { title = "Seeing Theory — visual introduction to probability", url = "https://seeing-theory.brown.edu/" },
+]
+
+[[task]]
+id = "vectors"
+title = "Vectors, scalars & dot product"
+topics = [
+  "Scalars vs vectors",
+  "Vector addition and scalar multiplication",
+  "Norm (length) and unit vectors",
+  "Dot product — algebraic (Σ aᵢbᵢ) and geometric (|a||b| cos θ)",
+  "Angle between vectors and cosine similarity",
+  "Orthogonality",
+  "Projection of one vector onto another",
+]
+example = '''
+```
+a = (3, 4),  b = (4, 3)
+
+|a| = √(3² + 4²) = 5          |b| = 5
+a · b = 3·4 + 4·3 = 24
+cos θ = 24 / (5·5) = 0.96  →  θ ≈ 16.3°    (almost the same direction)
+
+c = (4, −3)  →  a · c = 12 − 12 = 0  →  a ⟂ c   (orthogonal)
+```'''
+
+[[task]]
+id = "matrices"
+title = "Matrices: multiplication, transpose, identity, inverse"
+topics = [
+  "Matrix as a table of numbers and as a linear map",
+  "Shapes and the (m×n)·(n×p) = (m×p) rule",
+  "Matrix–vector and matrix–matrix multiplication",
+  "Matrix multiplication is not commutative (AB ≠ BA)",
+  "Transpose and (AB)ᵀ = BᵀAᵀ",
+  "Identity matrix",
+  "Inverse and when it exists (det ≠ 0)",
+]
+example = '''
+```
+A = [[1, 2],      B = [[0, 1],
+     [3, 4]]           [1, 0]]
+
+AB = [[1·0 + 2·1, 1·1 + 2·0],    = [[2, 1],
+      [3·0 + 4·1, 3·1 + 4·0]]       [4, 3]]
+
+BA = [[3, 4],
+      [1, 2]]          → AB ≠ BA
+
+det(A) = 1·4 − 2·3 = −2
+A⁻¹ = (1/det) · [[4, −2], [−3, 1]] = [[−2, 1], [1.5, −0.5]]
+Check: A · A⁻¹ = [[1, 0], [0, 1]] ✓
+```'''
+
+[[task]]
+id = "linear-systems"
+title = "Linear systems, transformations & vector spaces"
+topics = [
+  "Systems of linear equations as Ax = b",
+  "Gaussian elimination",
+  "Unique, no, or infinitely many solutions",
+  "Linear transformations: rotation, scaling, shear, projection",
+  "Span and linear independence",
+  "Basis and dimension",
+  "Rank, column space and null space",
+]
+example = '''
+```
+ x + 2y = 5
+3x + 4y = 6        →   A = [[1, 2], [3, 4]],  b = (5, 6)
+
+R2 ← R2 − 3·R1 :   −2y = −9   →   y = 4.5
+x = 5 − 2·4.5 = −4
+
+Check: A · (−4, 4.5) = (−4 + 9, −12 + 18) = (5, 6) ✓
+
+Rotation by 90°:  R = [[0, −1], [1, 0]]   sends (1, 0) → (0, 1)
+```'''
+
+[[task]]
+id = "eigen-svd-pca"
+title = "Eigenvalues, eigenvectors, SVD & PCA"
+topics = [
+  "Determinant as area / volume scaling",
+  "Eigenvectors and eigenvalues (Av = λv)",
+  "Characteristic polynomial det(A − λI) = 0",
+  "Diagonalization",
+  "Symmetric matrices have orthogonal eigenvectors",
+  "Singular Value Decomposition (A = UΣVᵀ)",
+  "PCA: covariance matrix, principal components, explained variance",
+]
+example = '''
+```
+A = [[2, 1],
+     [1, 2]]
+
+det(A − λI) = (2 − λ)² − 1 = 0   →   λ₁ = 3,  λ₂ = 1
+
+λ₁ = 3:  (A − 3I)v = 0  →  v₁ = (1, 1)
+λ₂ = 1:  (A − I)v  = 0  →  v₂ = (1, −1)
+
+Check: A · (1, 1) = (3, 3) = 3 · (1, 1) ✓
+→ A only stretches the directions (1, 1) and (1, −1)
+```'''
+
+[[task]]
+id = "derivatives"
+title = "Functions, limits & derivatives"
+topics = [
+  "Functions and their graphs",
+  "Limits and continuity",
+  "Derivative as slope and instantaneous rate of change",
+  "Definition: f'(x) = lim (f(x + h) − f(x)) / h",
+  "Rules: power, product, quotient, chain",
+  "Derivatives of exp, log, sin and the sigmoid",
+  "Numerical differentiation: forward and central differences",
+]
+example = '''
+```
+f(x) = x³ − 2x
+f'(x) = 3x² − 2            f'(2) = 10
+
+Numerical check, central difference with h = 1e-5:
+(f(2 + h) − f(2 − h)) / (2h) ≈ 10.0000000
+
+σ(x) = 1 / (1 + e^(−x))   →   σ'(x) = σ(x) · (1 − σ(x))
+```'''
+
+[[task]]
+id = "gradient"
+title = "Partial derivatives & gradient"
+topics = [
+  "Functions of several variables f(x, y)",
+  "Partial derivatives",
+  "Gradient vector ∇f",
+  "Gradient = direction of steepest ascent",
+  "Directional derivatives",
+  "Level sets and contour plots",
+  "Gradient of the MSE loss",
+]
+example = '''
+```
+f(x, y) = x² + 3xy + y²
+
+∂f/∂x = 2x + 3y
+∂f/∂y = 3x + 2y
+∇f(1, 2) = (2 + 6, 3 + 4) = (8, 7)
+
+Steepest ascent at (1, 2):  direction (8, 7)
+Steepest descent:           −(8, 7)      ← what training follows
+```'''
+
+[[task]]
+id = "chain-rule"
+title = "Chain rule & Jacobian"
+topics = [
+  "Function composition",
+  "Chain rule: (f∘g)'(x) = f'(g(x)) · g'(x)",
+  "Multivariable chain rule",
+  "Computational graphs",
+  "Jacobian matrix",
+  "Forward vs reverse mode (backpropagation)",
+  "Vector–Jacobian products",
+]
+example = '''
+```
+One neuron:  z = w·x + b,   a = σ(z),   L = (a − y)²
+x = 2, w = 0.5, b = 0, y = 1
+
+Forward:   z = 1,   a = σ(1) ≈ 0.731,   L ≈ 0.0723
+
+Backward:
+dL/da = 2(a − y)    ≈ −0.538
+da/dz = a(1 − a)    ≈  0.197
+dz/dw = x           =  2
+
+dL/dw = dL/da · da/dz · dz/dw ≈ −0.212
+```'''
+
+[[task]]
+id = "gradient-descent"
+title = "Optimization & gradient descent"
+topics = [
+  "Objective / loss function",
+  "Update rule: θ ← θ − η ∇L(θ)",
+  "Learning rate: too small, too large, divergence",
+  "Convex vs non-convex functions",
+  "Local minima and saddle points",
+  "Stochastic and mini-batch gradient descent",
+  "Momentum and Adam (intuition)",
+]
+example = '''
+```
+f(x) = x²,   f'(x) = 2x,   x₀ = 5,   η = 0.1
+
+x₁ = 5   − 0.1·10  = 4
+x₂ = 4   − 0.1·8   = 3.2
+x₃ = 3.2 − 0.1·6.4 = 2.56      → every step multiplies x by (1 − 2η) = 0.8
+
+η = 1.1  →  factor 1 − 2.2 = −1.2  →  |x| grows every step: diverges
+```'''
+
+[[task]]
+id = "probability-bayes"
+title = "Probability, conditional probability & Bayes"
+topics = [
+  "Sample space, events and the axioms of probability",
+  "Joint, marginal and conditional probability",
+  "Independence",
+  "Law of total probability",
+  "Bayes' theorem: P(A|B) = P(B|A) P(A) / P(B)",
+  "Prior, likelihood, posterior",
+  "Base-rate fallacy",
+]
+example = '''
+```
+Disease prevalence 1%. Test: 99% sensitivity, 95% specificity.
+P(D) = 0.01,   P(+|D) = 0.99,   P(+|¬D) = 0.05
+
+P(+)   = 0.99·0.01 + 0.05·0.99 = 0.0594
+P(D|+) = 0.99·0.01 / 0.0594   ≈ 0.167
+
+→ only ~17% of positives are sick, despite a "99%" test
+```'''
+
+[[task]]
+id = "distributions"
+title = "Random variables, distributions, expectation & variance"
+topics = [
+  "Discrete vs continuous random variables",
+  "PMF, PDF and CDF",
+  "Bernoulli, binomial, uniform and normal (Gaussian) distributions",
+  "Expectation, variance, standard deviation",
+  "Linearity of expectation",
+  "Law of large numbers and central limit theorem",
+  "Covariance and correlation",
+]
+example = '''
+```
+X = roll of a fair die
+E[X]   = (1 + 2 + … + 6) / 6   = 3.5
+E[X²]  = (1 + 4 + … + 36) / 6  = 91/6
+Var(X) = E[X²] − E[X]²         = 91/6 − 12.25 ≈ 2.917
+
+Normal N(μ, σ²):  ~68% of values in μ ± σ,  ~95% in μ ± 2σ
+```'''
+
+[[task]]
+id = "entropy-kl"
+title = "Entropy, cross-entropy & KL divergence"
+topics = [
+  "Information / surprise: −log p",
+  "Entropy H(p) = −Σ p log p",
+  "Cross-entropy H(p, q)",
+  "KL divergence D_KL(p‖q) = H(p, q) − H(p)",
+  "KL is not symmetric",
+  "Softmax + cross-entropy as the classification loss",
+  "Log-likelihood and its link to cross-entropy",
+]
+example = '''
+```
+True label (one-hot):  p = [1, 0, 0]
+Prediction:            q = [0.7, 0.2, 0.1]
+
+H(p, q) = −Σ pᵢ log qᵢ = −log 0.7 ≈ 0.357 nats
+If q = [0.1, 0.6, 0.3]:  −log 0.1 ≈ 2.303   → much higher loss
+
+Fair coin:  H = −2 · (0.5 · log₂ 0.5) = 1 bit
+```'''

@@ -1,0 +1,106 @@
+summary = "PyTorch, MLPs, CNNs and RNNs — plus your own autograd engine and a small neural-network framework."
+exam = [
+  "Explain backpropagation through a 2-layer MLP on paper, with the shape of every tensor",
+  "From an empty file, train a CNN on CIFAR-10 (or an RNN on text) end-to-end",
+  "Compute the output shapes and parameter count of a given CNN",
+  "Diagnose a training run that does not learn (wrong learning rate, missing zero_grad, eval mode, unnormalized inputs…)",
+]
+
+[task.pytorch-basics]
+goals = [
+  "Manipulate tensors and broadcasting with confidence",
+  "Use autograd and verify gradients by hand",
+  "Write a standard training loop from memory",
+  "Build a custom Dataset and DataLoader",
+]
+exercises = [
+  "Predict the shape, then check: (2, 3) + (3,), (4, 1) * (1, 5), a (8, 3, 32, 32) tensor `.view(8, -1)`, and `torch.cat` vs `torch.stack` of two (3, 4) tensors.",
+  "Use autograd to compute the gradient of f(x, y) = x²y + y³ at (1, 2) and compare with your hand calculation. *(Answer: ∂f/∂x = 4, ∂f/∂y = 13)*",
+  "Rewrite stage 2's linear regression in PyTorch: first with manual updates inside `torch.no_grad()`, then with `nn.Linear` + `torch.optim.SGD`.",
+  "Write a `Dataset` that reads a CSV and a `DataLoader` with batch size 32 and shuffling; iterate one epoch and print batch shapes.",
+  "Show what happens if you forget `optimizer.zero_grad()` and explain why.",
+]
+check = [
+  "Explain the broadcasting rules",
+  "Explain the computation graph autograd builds and when it is freed",
+  "Write the 5 lines of a training step from memory: forward, loss, zero_grad, backward, step",
+]
+
+[task.perceptron-mlp]
+goals = [
+  "Implement the perceptron and see where it fails",
+  "Explain why non-linear activations are needed",
+  "Build an MLP from scratch (NumPy, manual backprop) and in PyTorch",
+  "Train an MLP on MNIST to > 97% accuracy",
+]
+exercises = [
+  "Code: implement the perceptron learning rule; train it on AND and OR and show that it never converges on XOR.",
+  "Show that two linear layers without an activation collapse into one: write W₂(W₁x) as a single matrix.",
+  "Code: implement a 2-layer MLP in NumPy with manual backprop and solve XOR.",
+  "Train an MLP on MNIST in PyTorch (784 → 128 → 10) to > 97% test accuracy; compare training speed with sigmoid vs ReLU.",
+  "Initialize all weights to 0 and explain what goes wrong (symmetry).",
+]
+check = [
+  "Explain why we need non-linear activations",
+  "Explain the vanishing-gradient problem with sigmoid",
+  "Explain the role of softmax in the last layer",
+]
+
+[task.cnn]
+goals = [
+  "Compute output shapes and parameter counts of convolutional layers",
+  "Implement 2D convolution from scratch",
+  "Explain why CNNs beat MLPs on images",
+  "Read a ResNet block and explain the skip connection",
+]
+exercises = [
+  "Input 3×64×64 → Conv2d(3, 16, kernel=3, padding=1) → MaxPool(2) → Conv2d(16, 32, kernel=3, stride=2). Compute each output shape and the parameters of each conv. *(Answer: 16×64×64 → 16×32×32 → 32×15×15; 448 and 4 640 parameters)*",
+  "Code: implement 2D convolution in NumPy (single channel, then multi-channel) and check it against `torch.nn.functional.conv2d`.",
+  "Apply hand-made Sobel kernels to a photo and visualize the feature maps.",
+  "Compare parameter counts: a dense layer with 1 000 units on a 224×224×3 image vs a 3×3 conv with 64 filters. *(Answer: ≈ 150.5 million vs 1 792)*",
+]
+check = [
+  "Explain parameter sharing and why it helps",
+  "Compute the receptive field of two stacked 3×3 convolutions",
+  "Explain what problem ResNet's skip connections solve",
+]
+
+[task.image-classifier]
+goals = [
+  "Train a CNN on CIFAR-10 to a target accuracy",
+  "Use augmentation, batch norm and a learning-rate schedule correctly",
+  "Fine-tune a pretrained model",
+  "Do error analysis on your model's mistakes",
+]
+exercises = [
+  "Train a small CNN on CIFAR-10 from scratch to ≥ 75% test accuracy; log training / validation loss and accuracy per epoch.",
+  "Ablation: train with and without augmentation, batch norm and dropout; put the results in a table.",
+  "Fine-tune a pretrained ResNet-18 (torchvision) on a small dataset of your choice (2–5 classes, a few hundred images) and compare with training from scratch.",
+  "Plot the confusion matrix and show the 16 most confident wrong predictions. What patterns do you see?",
+  "Write the blog post: what you built, the curves, and what helped most.",
+]
+check = [
+  "Explain why augmentation reduces overfitting",
+  "Explain what batch norm does in `model.train()` vs `model.eval()`",
+  "Explain why transfer learning works with few images",
+]
+
+[task.rnn-embeddings]
+goals = [
+  "Implement a vanilla RNN cell",
+  "Explain why LSTMs and GRUs were invented",
+  "Train a character-level language model",
+  "Use and visualize embeddings",
+]
+exercises = [
+  "Code: implement an RNN cell in PyTorch without `nn.RNN` and check its outputs against `nn.RNN` with the same weights.",
+  "Train a character-level language model (RNN, then LSTM) on a small text (e.g. Shakespeare or your own notes); generate text with temperature 0.5, 1.0 and 1.5.",
+  "Train a sentiment classifier on IMDB with an embedding layer + LSTM and report accuracy.",
+  "Plot the gradient norm across time steps for an RNN vs an LSTM.",
+  "Visualize learned embeddings with PCA (from stage 1) and look for clusters.",
+]
+check = [
+  "Explain what the hidden state stores",
+  "Explain how LSTM gates fight vanishing gradients",
+  "Explain why RNNs are slower to train than Transformers",
+]

@@ -1,0 +1,64 @@
+summary = "Modelos de visão, áudio e vídeo — e um conductor que encaminha cada pedido para o modelo certo."
+exam = [
+  "Construir um pipeline utilizador → conductor → ferramentas que trate pelo menos 3 modalidades",
+  "Explicar como funcionam o ViT e o CLIP, com shapes dos tensores",
+  "Reportar routing accuracy e latência num conjunto de pedidos com labels",
+  "Demonstrar de ponta a ponta um pedido multimodal de vários passos",
+]
+
+[task.vision]
+goals = [
+  "Implementar o patch embedding do ViT",
+  "Explicar o objetivo contrastivo do CLIP",
+  "Classificar imagens em zero-shot com prompts de texto",
+  "Construir uma pesquisa de imagens por texto",
+]
+exercises = [
+  "Código: implementa patch embedding (`unfold` ou reshape) e confirma o shape de saída para um batch (8, 3, 224, 224) com patches 16×16. *(Resposta: (8, 196, d_model))*",
+  "Corre classificação zero-shot com CLIP (ex.: `openai/clip-vit-base-patch32`) em 20 fotos tuas com 5 labels; experimenta templates de prompt diferentes e compara a accuracy.",
+  "Constrói uma pesquisa texto → imagem sobre uma pasta de imagens com embeddings CLIP + cosine similarity.",
+  "Escreve a loss contrastiva do CLIP para um batch de N pares imagem–texto em PyTorch (cross-entropy simétrica sobre a matriz de semelhança N×N).",
+]
+check = [
+  "Explicar como um ViT transforma uma imagem numa sequência",
+  "Explicar porque é que o CLIP consegue classificar labels com que nunca foi treinado",
+  "Comparar os inductive biases de ViTs e CNNs",
+]
+
+[task.audio]
+goals = [
+  "Calcular e ler mel spectrograms",
+  "Transcrever fala e medir o WER",
+  "Construir um pipeline fala → LLM → fala",
+  "Medir e reduzir a latência",
+]
+exercises = [
+  "Carrega um ficheiro de áudio e desenha a waveform, o spectrogram e o mel spectrogram (`librosa` ou `torchaudio`).",
+  "Transcreve 5 gravações da tua voz (inglês e português) com Whisper; calcula o WER contra as tuas transcrições manuais com `jiwer`.",
+  "Constrói um pipeline de voz: áudio → STT → LLM → TTS → ficheiro de áudio; mede a latência de cada etapa.",
+  "Compara um modelo Whisper pequeno e um maior em velocidade e WER.",
+]
+check = [
+  "Explicar porque é que os modelos usam spectrograms em vez da waveform crua",
+  "Explicar o que o WER mede e os seus limites",
+  "Identificar o gargalo de latência do teu pipeline",
+]
+
+[task.conductor]
+goals = [
+  "Desenhar e implementar um router",
+  "Avaliar a routing accuracy num conjunto com labels",
+  "Encadear modelos em pedidos multimodais de vários passos",
+  "Lidar com falhas através de fallbacks",
+]
+exercises = [
+  "Escreve 30 pedidos de exemplo em 4 modalidades e marca a rota correta de cada um.",
+  "Implementa 3 routers — regras por palavras-chave, um classificador de embeddings e um router LLM com saída estruturada — e compara accuracy e latência nos teus 30 pedidos.",
+  "Encadeia modelos num pedido de vários passos, ex.: \"transcreve este áudio e faz uma imagem do que descreve\".",
+  "Junta fallbacks: quando um modelo falha ou excede o tempo, encaminha para um alternativo e regista-o.",
+]
+check = [
+  "Explicar os trade-offs de cada tipo de router",
+  "Desenhar a arquitetura do teu conductor com todos os modelos e fluxos de dados",
+  "Reportar routing accuracy, latência média e custo por pedido",
+]

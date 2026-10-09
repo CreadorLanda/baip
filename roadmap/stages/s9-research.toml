@@ -1,0 +1,78 @@
+id = "s9"
+title = "Research Mode"
+months = "22–24"
+studies = "studies/stage-9-research"
+projects = ["projects/12-research", "papers"]
+resources = [
+  { title = "S. Keshav — How to Read a Paper", url = "https://dl.acm.org/doi/10.1145/1273445.1273458" },
+  { title = "arXiv — Machine Learning (cs.LG), recent", url = "https://arxiv.org/list/cs.LG/recent" },
+  { title = "Hugging Face — Daily Papers", url = "https://huggingface.co/papers" },
+  { title = "Semantic Scholar", url = "https://www.semanticscholar.org/" },
+]
+
+[[task]]
+id = "paper-routine"
+title = "Paper routine: 2–4 papers per week"
+topics = [
+  "The three-pass reading method",
+  "Paper structure: problem, method, experiments, limitations",
+  "Finding papers: arXiv, Hugging Face Papers, Semantic Scholar, conference proceedings",
+  "Reading critically: baselines, ablations, statistical significance",
+  "Note-taking and summaries",
+  "Keeping a reading log",
+]
+example = '''
+```markdown
+papers/2017-attention-is-all-you-need.md
+
+## Problem       What fails today and why it matters
+## Method        The key idea in 3 sentences + 1 diagram
+## Experiments   Datasets, baselines, main numbers
+## Ablations     What actually made the difference
+## Limitations   What they don't show / what I doubt
+## My take       Would I use it? What would I try next?
+```'''
+
+[[task]]
+id = "reproduce-paper"
+title = "Reproduce one paper"
+topics = [
+  "Choosing a paper to reproduce: scope, compute, available data",
+  "Turning the method section into an implementation plan",
+  "Reproducing the key result, not everything",
+  "Experiment tracking: configs, seeds, logs (Weights & Biases, MLflow or CSV)",
+  "Debugging when the numbers don't match",
+  "Reproducible repositories: environment, README, scripts",
+  "Reporting differences honestly",
+]
+example = '''
+```
+projects/12-research/reproduce-<paper>/
+├── README.md           claim reproduced, results table, differences vs the paper
+├── configs/            one file per experiment
+├── src/                model, data, train, eval
+├── scripts/run_all.sh  one command reproduces everything
+└── results/            metrics + plots (small files only)
+```'''
+
+[[task]]
+id = "own-research"
+title = "Own research"
+topics = [
+  "Finding a research question: gaps, limitations, \"what if\"",
+  "Hypotheses and falsifiable predictions",
+  "Experimental design: baselines, controls, metrics",
+  "Ablation studies",
+  "Statistical rigour: seeds, confidence intervals",
+  "Writing: paper structure, figures, related work",
+  "Sharing: arXiv, workshops, blog posts, open-source code",
+]
+example = '''
+```
+Question:    Does LoRA rank matter less for small models?
+Hypothesis:  For models < 500M params, r = 4 matches r = 64 within 1% accuracy.
+Experiment:  2 models × 5 ranks × 3 seeds × 2 tasks
+Baselines:   full fine-tuning, frozen model
+Ablation:    which layers get LoRA (q, v vs all linear layers)
+Result:      table + plot with confidence intervals → hypothesis supported or rejected
+```'''

@@ -1,0 +1,65 @@
+summary = "Ler, reproduzir, pesquisar: de consumir papers a produzir os teus próprios resultados."
+exam = [
+  "Apresentar a tua pesquisa em 10 minutos e responder a perguntas (uma \"defesa\")",
+  "Mostrar o repositório reproduzível do paper que reproduziste, a correr com um só comando",
+  "Resumir 3 papers lidos nesta etapa, incluindo as suas limitações",
+]
+
+[task.paper-routine]
+goals = [
+  "Ler papers com o método das três passagens",
+  "Resumir qualquer paper com um template fixo",
+  "Julgar se as experiências suportam as conclusões",
+  "Manter uma rotina de leitura sustentável",
+]
+exercises = [
+  "Lê \"How to Read a Paper\" de S. Keshav e aplica o método das três passagens aos teus próximos 3 papers.",
+  "Escreve 3 reviews em `papers/` com o template acima (sugestão: ResNet, Attention Is All You Need, LoRA).",
+  "Para um paper, lista todos os baselines e ablações e decide se a conclusão principal é mesmo suportada.",
+  "Mantém um registo de leitura (título, data, ideia principal numa linha) durante 4 semanas, a 2–4 papers por semana.",
+]
+check = [
+  "Resumir um paper em voz alta em 2 minutos",
+  "Apontar pelo menos uma limitação ou experiência em falta em cada paper",
+  "Encontrar o código e os dados de um paper, ou registar que não existem",
+]
+
+[task.reproduce-paper]
+goals = [
+  "Escolher um paper que caiba no teu poder de computação",
+  "Reimplementar o resultado principal a partir do texto",
+  "Registar experiências com rigor",
+  "Publicar um repositório que qualquer pessoa consiga reproduzir",
+]
+exercises = [
+  "Escolhe um paper cujo resultado principal caiba na tua computação (ex.: um resultado em pequena escala da ResNet, Dropout ou LoRA) e escreve a tabela ou figura exata que vais reproduzir.",
+  "Reimplementa o método a partir do próprio paper — usa o código oficial só para depurar.",
+  "Regista cada execução (config, seed, métricas) e corre pelo menos 3 seeds para o resultado principal.",
+  "Publica o repo com um README: setup, um comando para reproduzir, os teus números ao lado dos do paper e uma lista honesta das diferenças.",
+  "Escreve um post no blog sobre o que foi difícil de reproduzir.",
+]
+check = [
+  "Outra pessoa consegue clonar o teu repo e obter os teus números com um comando",
+  "Explicar cada diferença entre os teus números e os do paper",
+  "Explicar porque é que várias seeds importam",
+]
+
+[task.own-research]
+goals = [
+  "Formular uma pergunta de pesquisa falsificável",
+  "Desenhar experiências com baselines e ablações",
+  "Reportar resultados com rigor estatístico",
+  "Escrever e publicar o teu trabalho",
+]
+exercises = [
+  "Escreve 5 perguntas candidatas a partir das secções de limitações dos papers que leste; escolhe uma por interesse, novidade e computação viável.",
+  "Escreve uma proposta de uma página: pergunta, hipótese, experiências, baselines, métricas e que resultado te provaria errado.",
+  "Corre as experiências com ablações e várias seeds; mantém um caderno de laboratório em `notes/`.",
+  "Escreve tudo como um paper curto (4–8 páginas, formato workshop) com figuras e trabalho relacionado.",
+  "Publica o código e o texto (arXiv, workshop ou blog) e pede feedback a 2 pessoas.",
+]
+check = [
+  "Dizer numa frase a tua hipótese e o que a falsificaria",
+  "Defender cada escolha no desenho das tuas experiências",
+  "Explicar o que há de novo no teu trabalho face ao trabalho relacionado",
+]

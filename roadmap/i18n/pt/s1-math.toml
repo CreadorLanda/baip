@@ -1,0 +1,222 @@
+summary = "Álgebra linear, cálculo e probabilidade — a linguagem em que está escrito cada modelo deste roadmap."
+exam = [
+  "Calcular os autovalores e autovetores de [[3, 1], [0, 2]] e explicar o que significam geometricamente",
+  "Derivar à mão dL/dw para L(w) = (σ(w·x) − y)²",
+  "Resolver um problema de Bayes de um teste médico com prevalência de 2%, sensibilidade de 95% e especificidade de 90%",
+  "Implementar gradient descent para regressão linear a partir de um ficheiro vazio e fazê-lo convergir",
+  "Calcular à mão a cross-entropy loss de uma previsão com 3 classes",
+]
+
+[task.vectors]
+goals = [
+  "Ver um vetor como seta e como lista de números, e passar de uma visão para a outra",
+  "Calcular normas, produtos escalares e o ângulo entre dois vetores à mão",
+  "Explicar porque é que o produto escalar mede o quanto dois vetores apontam na mesma direção",
+  "Explicar porque é que a cosine similarity é usada para comparar embeddings",
+]
+exercises = [
+  "Para u = (1, 2, 2) e v = (2, 0, 1) calcula u + v, 3u, |u|, u · v e o ângulo entre eles. *(Resposta: (3, 2, 3), (3, 6, 6), 3, 4, ≈ 53.4°)*",
+  "Encontra um vetor não nulo ortogonal a (2, −1, 3).",
+  "Normaliza (6, 8) para um vetor unitário. *(Resposta: (0.6, 0.8))*",
+  "Projeta a = (3, 4) sobre b = (1, 1). *(Resposta: (3.5, 3.5))*",
+  "Código: implementa `add`, `scale`, `dot`, `norm` e `cosine_similarity` em Python puro (só listas) e compara com NumPy em 1 000 vetores aleatórios usando `np.allclose`.",
+]
+check = [
+  "Explicar, sem fórmulas, o que significa um produto escalar negativo",
+  "Explicar porque é que a cosine similarity ignora o comprimento dos vetores e quando isso é útil",
+  "Explicar de onde vem a fórmula cos θ = a·b / (|a||b|)",
+]
+
+[task.matrices]
+goals = [
+  "Prever o shape do resultado de um produto antes de o calcular",
+  "Multiplicar matrizes 2×2 e 2×3 à mão",
+  "Calcular a inversa de uma 2×2 e verificar A · A⁻¹ = I",
+  "Ler uma camada de rede neuronal y = Wx + b como uma operação matricial",
+]
+exercises = [
+  "Se X é 32×784 (um batch de imagens) e W é 784×128, qual é o shape de XW? Dá para calcular WX? *(Resposta: 32×128; não — as dimensões interiores 128 e 32 não coincidem)*",
+  "Calcula [[2, 0, 1], [1, 3, 2]] · [[1], [0], [4]]. *(Resposta: [[6], [9]])*",
+  "Encontra a inversa de [[4, 7], [2, 6]] e verifica que A · A⁻¹ = I. *(Resposta: [[0.6, −0.7], [−0.2, 0.4]])*",
+  "Mostra com um exemplo que (AB)ᵀ = BᵀAᵀ e que, em geral, (AB)ᵀ ≠ AᵀBᵀ.",
+  "Código: implementa `matmul`, `transpose`, `identity(n)` e `inverse_2x2` em Python puro, com testes contra NumPy e um erro para matrizes singulares.",
+]
+check = [
+  "Explicar a multiplicação de matrizes como linhas de A vezes colunas de B",
+  "Explicar geometricamente porque é que [[1, 2], [2, 4]] não tem inversa",
+  "Ler `y = W @ x + b` em PyTorch e dizer o shape de cada termo",
+]
+
+[task.linear-systems]
+goals = [
+  "Resolver um sistema 3×3 por eliminação de Gauss",
+  "Ler as colunas de uma matriz como o sítio onde caem os vetores da base",
+  "Decidir se um conjunto de vetores é linearmente independente",
+  "Relacionar o rank de A com o número de soluções de Ax = b",
+]
+exercises = [
+  "Resolve por eliminação de Gauss: x + y + z = 6, 2y + 5z = −4, 2x + 5y − z = 27. *(Resposta: x = 5, y = 3, z = −2)*",
+  "Escreve a matriz que roda 90° e a que escala x por 2. Aplica \"primeiro rodar, depois escalar\" a (1, 1). *(Resposta: (−2, 1))*",
+  "(1, 2, 3), (4, 5, 6) e (7, 8, 9) são linearmente independentes? Qual é o rank? *(Resposta: não, rank 2)*",
+  "Dá um sistema sem solução e outro com infinitas soluções; explica cada um com o rank.",
+  "Código: implementa eliminação de Gauss com pivotagem parcial e compara com `np.linalg.solve` em sistemas 5×5 aleatórios.",
+]
+check = [
+  "Explicar o que significa \"as colunas de A são onde caem os vetores da base\"",
+  "Explicar a diferença entre uma base e um conjunto gerador",
+  "Prever só pelo rank se Ax = b pode ter solução única",
+]
+
+[task.eigen-svd-pca]
+goals = [
+  "Calcular autovalores e autovetores de uma matriz 2×2 à mão",
+  "Explicar os autovetores como as direções que a matriz só estica",
+  "Explicar como o PCA usa os autovetores da matriz de covariância (ou a SVD)",
+  "Reduzir um dataset com PCA e reportar a variância explicada",
+]
+exercises = [
+  "Encontra os autovalores e autovetores de [[4, 1], [2, 3]]. *(Resposta: λ = 5 com (1, 1); λ = 2 com (1, −2))*",
+  "Quais são os autovalores de uma rotação de 90°? O que significa geometricamente? *(Resposta: ±i — nenhuma direção real é preservada)*",
+  "Calcula det([[3, 1], [2, 4]]) e diz o que faz à área do quadrado unitário. *(Resposta: 10 — as áreas ficam multiplicadas por 10)*",
+  "Código: gera 200 pontos 2D esticados ao longo de y = x, faz PCA do zero (centrar → covariância → decomposição em autovalores), desenha as componentes e reporta a variância explicada.",
+  "Código: comprime uma imagem em tons de cinzento com SVD truncada (k = 5, 20, 50) e compara qualidade vs espaço ocupado.",
+]
+check = [
+  "Explicar porque é que o PCA fica primeiro com o autovetor de maior autovalor",
+  "Explicar a relação entre SVD e PCA",
+  "Explicar o que um autovalor zero diz sobre a matriz",
+]
+
+[task.derivatives]
+goals = [
+  "Derivar funções comuns à mão",
+  "Explicar a derivada como o declive da reta tangente",
+  "Aproximar derivadas numericamente e perceber o erro",
+  "Derivar a derivada da sigmoid",
+]
+exercises = [
+  "Deriva 5x⁴ − 3x + 7, x·eˣ, ln(x² + 1) e (x + 1)/(x − 1). *(Resposta: 20x³ − 3; eˣ(1 + x); 2x/(x² + 1); −2/(x − 1)²)*",
+  "Estima lim (x→0) sin(x)/x com uma tabela de valores e explica o resultado.",
+  "Prova que σ'(x) = σ(x)(1 − σ(x)).",
+  "Código: escreve `numerical_derivative(f, x, h)` com diferenças progressivas e centrais; desenha o erro vs h (1e-1 … 1e-12) em escala log-log e explica porque é que o erro volta a subir para h muito pequeno.",
+]
+check = [
+  "Explicar a derivada com a imagem de \"fazer zoom até a curva parecer reta\"",
+  "Explicar porque é que as diferenças centrais são mais precisas que as progressivas",
+  "Dizer onde a derivada da ReLU não está definida e como os frameworks lidam com isso",
+]
+
+[task.gradient]
+goals = [
+  "Calcular derivadas parciais e gradientes",
+  "Explicar porque é que o gradiente aponta para cima e é perpendicular às curvas de nível",
+  "Ler um gráfico de contorno",
+  "Derivar o gradiente da MSE em relação aos pesos",
+]
+exercises = [
+  "Calcula ∇f para f(x, y) = x²y + sin(y) e avalia em (1, 0). *(Resposta: (2xy, x² + cos y) → (0, 2))*",
+  "Para f(x, y) = x² + y², calcula a derivada direcional em (1, 1) segundo (1, 0) e segundo (1, 1)/√2. Qual é maior e porquê? *(Resposta: 2 e 2√2 ≈ 2.83 — a segunda é a direção do gradiente)*",
+  "Para L(w, b) = (1/n) Σ (w·xᵢ + b − yᵢ)², deriva ∂L/∂w e ∂L/∂b. *(Resposta: (2/n) Σ (ŷᵢ − yᵢ)·xᵢ e (2/n) Σ (ŷᵢ − yᵢ))*",
+  "Código: desenha as curvas de nível de f(x, y) = x² + 3y² com matplotlib, sobrepõe o campo gradiente com `quiver` e confirma que as setas são perpendiculares às curvas.",
+]
+check = [
+  "Explicar porque é que o gradiente é perpendicular às curvas de nível",
+  "Explicar porque é que o treino anda na direção de −∇L",
+  "Verificar um gradiente analítico com um numérico (gradient check)",
+]
+
+[task.chain-rule]
+goals = [
+  "Aplicar a regra da cadeia a funções compostas",
+  "Desenhar um grafo computacional e fazer backprop dos gradientes à mão",
+  "Construir o Jacobiano de uma função vetorial",
+  "Explicar porque é que o reverse mode é eficiente para losses com muitas entradas e uma saída",
+]
+exercises = [
+  "Deriva sin(x²)·e^(3x) e (3x + 1)⁵. *(Resposta: 2x·cos(x²)·e^(3x) + 3·sin(x²)·e^(3x); 15(3x + 1)⁴)*",
+  "Calcula o Jacobiano de f(x, y) = (x²y, 5x + sin y). *(Resposta: [[2xy, x²], [5, cos y]])*",
+  "Desenha o grafo de L = (σ(w₂·relu(w₁·x)) − y)² e calcula ∂L/∂w₁ e ∂L/∂w₂ à mão para x = 1, w₁ = 2, w₂ = −1, y = 0. *(Resposta: ∂L/∂w₂ ≈ 0.050, ∂L/∂w₁ ≈ −0.025)*",
+  "Código: confirma os gradientes calculados à mão com `loss.backward()` do PyTorch e com um gradient check numérico.",
+]
+check = [
+  "Explicar o backprop como a regra da cadeia aplicada da loss para trás, reaproveitando resultados intermédios",
+  "Dizer o shape do Jacobiano de f: ℝⁿ → ℝᵐ",
+  "Explicar porque é que os frameworks calculam produtos vetor–Jacobiano em vez do Jacobiano completo",
+]
+
+[task.gradient-descent]
+goals = [
+  "Implementar gradient descent do zero",
+  "Diagnosticar o learning rate a partir da curva da loss",
+  "Explicar o que é convexidade e porque importa",
+  "Comparar GD simples, momentum e Adam numa função simples",
+]
+exercises = [
+  "Para f(x) = x², encontra os learning rates η para os quais o gradient descent converge. *(Resposta: 0 < η < 1)*",
+  "Minimiza f(x, y) = (x − 3)² + 10(y + 1)² a partir de (0, 0) com η = 0.01, 0.05 e 0.1. Desenha cada caminho num gráfico de contorno. Porque é que com η = 0.1 nunca converge em y?",
+  "Implementa momentum e compara o número de passos até |∇f| < 1e-6 com o GD simples.",
+  "Código: ajusta y = wx + b a 100 pontos com ruído usando mini-batch SGD (batch de 10) e desenha a curva da loss.",
+]
+check = [
+  "Olhar para uma curva de loss e dizer se o learning rate está alto demais, baixo demais ou bem",
+  "Explicar porque é que as losses não convexas das redes neuronais treinam bem com SGD",
+  "Explicar numa frase o que o momentum acrescenta",
+]
+
+[task.probability-bayes]
+goals = [
+  "Calcular probabilidades condicionais a partir de uma tabela ou árvore",
+  "Usar o teorema de Bayes para atualizar uma crença com evidência",
+  "Detetar a falácia da taxa de base",
+  "Construir um filtro de spam naive Bayes a partir de contagens de palavras",
+]
+exercises = [
+  "Lançam-se dois dados. Calcula P(soma = 7) e P(soma = 7 | primeiro dado = 3). Os eventos são independentes? *(Resposta: 1/6 e 1/6 — sim)*",
+  "Uma urna tem 3 bolas vermelhas e 2 azuis; tiram-se duas sem reposição. P(ambas vermelhas)? P(segunda vermelha | primeira azul)? *(Resposta: 3/10; 3/4)*",
+  "20% dos emails são spam. \"free\" aparece em 60% do spam e em 5% dos emails normais. P(spam | \"free\")? *(Resposta: 0.75)*",
+  "Código: constrói um filtro de spam naive Bayes com contagem de palavras e Laplace smoothing no SMS Spam Collection e reporta a accuracy.",
+]
+check = [
+  "Explicar prior, likelihood e posterior com o exemplo do teste médico",
+  "Explicar porque é que o naive Bayes se chama \"naive\"",
+  "Explicar a diferença entre P(A|B) e P(B|A) com um exemplo real",
+]
+
+[task.distributions]
+goals = [
+  "Calcular esperança e variância de variáveis aleatórias discretas",
+  "Reconhecer que distribuição se aplica a cada situação",
+  "Simular distribuições e comparar com a teoria",
+  "Explicar o teorema do limite central",
+]
+exercises = [
+  "Uma moeda com P(cara) = 0.3 é lançada 10 vezes. Calcula P(exatamente 3 caras), E[caras] e Var(caras). *(Resposta: ≈ 0.267; 3; 2.1)*",
+  "Se X ~ N(100, 15²), que fração dos valores fica entre 85 e 130? *(Resposta: ≈ 81.9%)*",
+  "Prova que Var(aX + b) = a² Var(X).",
+  "Código: simula a média de n lançamentos de um dado (n = 1, 2, 10, 50) 10 000 vezes e desenha os histogramas — vê o teorema do limite central a acontecer.",
+  "Código: no dataset Iris, calcula média, variância e a matriz de correlação do zero e compara com NumPy / pandas.",
+]
+check = [
+  "Explicar a diferença entre o valor de uma PDF e uma probabilidade",
+  "Explicar porque é que a distribuição normal aparece em todo o lado",
+  "Explicar porque é que correlação não implica causalidade, com um exemplo",
+]
+
+[task.entropy-kl]
+goals = [
+  "Calcular entropia, cross-entropy e divergência KL à mão",
+  "Explicar a entropia como surpresa média, medida em bits",
+  "Explicar porque é que minimizar a cross-entropy = maximizar a likelihood",
+  "Implementar softmax + cross-entropy numericamente estáveis",
+]
+exercises = [
+  "Calcula a entropia em bits de [0.5, 0.25, 0.25] e de [0.9, 0.05, 0.05]. Qual é mais incerta? *(Resposta: 1.5 bits; ≈ 0.569 bits)*",
+  "Para p = [0.5, 0.5] e q = [0.9, 0.1] calcula D_KL(p‖q) e D_KL(q‖p) em nats. *(Resposta: ≈ 0.511 e ≈ 0.368 — não é simétrica)*",
+  "Mostra que a cross-entropy com um label one-hot é igual a −log(probabilidade da classe correta).",
+  "Código: implementa `softmax` e `cross_entropy(logits, label)` com o truque log-sum-exp; testa com logits [1000, 1001, 1002] (a versão ingénua dá overflow) e compara com `torch.nn.functional.cross_entropy`.",
+]
+check = [
+  "Explicar a entropia como o número médio de perguntas sim/não necessárias",
+  "Explicar porque é que KL ≥ 0 e quando é igual a 0",
+  "Explicar porque é que a classificação usa cross-entropy e não MSE",
+]

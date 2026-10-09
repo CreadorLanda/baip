@@ -1,0 +1,66 @@
+summary = "Tornar modelos rápidos e baratos: programação de GPU, otimização de inferência e serving distribuído. Sem GPU? O Google Colab e o Kaggle dão GPUs grátis."
+exam = [
+  "Pegar num modelo, otimizar a inferência (quantização, KV cache, batching) e provar os ganhos com uma tabela de benchmark",
+  "Estimar o orçamento de memória de um modelo em treino e em inferência",
+  "Servir um modelo localmente e fazer load test",
+  "Escrever de memória um kernel CUDA (ou Triton) e explicar a indexação",
+]
+
+[task.gpu-cuda]
+goals = [
+  "Escrever e lançar kernels CUDA (ou Triton)",
+  "Explicar a indexação de threads e a hierarquia de memória",
+  "Acelerar multiplicação de matrizes com tiling em shared memory",
+  "Fazer profiling e distinguir memory-bound de compute-bound",
+]
+exercises = [
+  "Escreve e corre o kernel de soma de vetores (CUDA C, ou Triton / Numba em Python); confirma contra NumPy e mede o tempo vs CPU para n = 10⁶ e 10⁸.",
+  "Escreve um kernel de multiplicação de matrizes ingénuo e depois uma versão com tiling em shared memory; compara ambos com `torch.matmul`.",
+  "Calcula a intensidade aritmética (FLOPs / bytes) da soma de vetores e de um matmul 4096×4096; qual é memory-bound?",
+  "Faz profiling de um passo de treino do teu Tiny LLM com `torch.profiler` e encontra as 3 operações mais caras.",
+]
+check = [
+  "Explicar grid / block / thread com o exemplo vec_add",
+  "Explicar porque é que a shared memory acelera o matmul",
+  "Explicar porque é que o decoding de LLMs costuma ser memory-bound",
+]
+
+[task.optimization]
+goals = [
+  "Implementar quantização int8 e medir o erro",
+  "Implementar um KV cache",
+  "Fazer benchmarks corretos de latência, throughput e memória",
+  "Destilar um modelo grande num mais pequeno",
+]
+exercises = [
+  "Código: implementa quantização int8 simétrica de uma matriz de pesos; mede o erro de reconstrução e a mudança de accuracy ao quantizar as camadas lineares do teu MLP do MNIST.",
+  "Junta um KV cache à geração do teu Tiny LLM; mede tokens/segundo com e sem cache para 100, 500 e 1 000 tokens gerados.",
+  "Faz benchmark de um modelo Hugging Face em fp32, bf16 e 4-bit: latência por token, throughput com batch 1 / 8 / 32, memória e uma verificação rápida de qualidade.",
+  "Destila a tua CNN do CIFAR-10 num modelo estudante mais pequeno; compara accuracy e velocidade.",
+  "Põe todos os resultados numa tabela em `notes/`.",
+]
+check = [
+  "Explicar o KV cache e o seu custo de memória (2 × camadas × seq_len × d_model por sequência)",
+  "Explicar o trade-off latência vs throughput do batching",
+  "Explicar porque é que algumas camadas são mais sensíveis à quantização que outras",
+]
+
+[task.distributed-serving]
+goals = [
+  "Correr treino com data parallelism",
+  "Explicar quando é preciso model parallelism",
+  "Servir um modelo com um servidor de inferência",
+  "Fazer load test a um servidor e encontrar onde satura",
+]
+exercises = [
+  "Corre um script de treino com PyTorch DDP (`torchrun --nproc_per_node=2`; o backend `gloo` funciona em CPU) e confirma que todos os processos acabam com pesos idênticos.",
+  "Estima porque é que um modelo de 70B parâmetros não pode ser treinado só com data parallelism em GPUs de 80 GB. *(Resposta: só os pesos em fp16 ≈ 140 GB; com Adam ≈ 16 bytes/parâmetro ≈ 1.1 TB)*",
+  "Serve um modelo pequeno localmente com vLLM, llama.cpp ou Ollama e chama-o pela API HTTP.",
+  "Faz load test ao servidor (`locust` ou um script assíncrono); desenha latência e throughput vs utilizadores em simultâneo.",
+  "Põe o teu sistema RAG ou agente das etapas anteriores atrás do teu servidor local.",
+]
+check = [
+  "Explicar data vs tensor vs pipeline parallelism",
+  "Explicar o que o continuous batching melhora",
+  "Ler o gráfico do load test e dizer onde o servidor satura",
+]

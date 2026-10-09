@@ -1,0 +1,82 @@
+id = "s8"
+title = "AI Systems"
+months = "20–21"
+studies = "studies/stage-8-systems"
+projects = ["projects/10-ai-runtime", "projects/11-ai-integration"]
+resources = [
+  { title = "NVIDIA — CUDA C++ Programming Guide", url = "https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html" },
+  { title = "Triton tutorials", url = "https://triton-lang.org/main/getting-started/tutorials/index.html" },
+  { title = "Dao et al. — FlashAttention", url = "https://arxiv.org/abs/2205.14135" },
+  { title = "Kwon et al. — Efficient Memory Management for LLM Serving with PagedAttention (vLLM)", url = "https://arxiv.org/abs/2309.06180" },
+  { title = "Hugging Face — The Ultra-Scale Playbook", url = "https://huggingface.co/spaces/nanotron/ultrascale-playbook" },
+]
+
+[[task]]
+id = "gpu-cuda"
+title = "GPU & CUDA basics"
+topics = [
+  "CPU vs GPU architecture",
+  "CUDA programming model: grids, blocks, threads",
+  "Memory hierarchy: global, shared, registers",
+  "Memory coalescing",
+  "Kernel launches and synchronization",
+  "Profiling: torch.profiler, Nsight",
+  "Arithmetic intensity and the roofline model (memory- vs compute-bound)",
+]
+example = '''
+```cuda
+__global__ void vec_add(const float* a, const float* b, float* c, int n) {
+    int i = blockIdx.x * blockDim.x + threadIdx.x;
+    if (i < n) c[i] = a[i] + b[i];
+}
+
+int threads = 256;
+int blocks  = (n + threads - 1) / threads;   // ceil(n / 256)
+vec_add<<<blocks, threads>>>(d_a, d_b, d_c, n);
+```'''
+
+[[task]]
+id = "optimization"
+title = "Inference optimization: quantization, KV cache, batching"
+topics = [
+  "Quantization: int8, int4; post-training vs quantization-aware",
+  "Pruning: unstructured and structured",
+  "Knowledge distillation",
+  "KV cache for autoregressive decoding",
+  "Batching and continuous batching",
+  "Mixed precision: fp16 / bf16",
+  "FlashAttention (intuition)",
+  "Measuring latency, throughput, memory and quality",
+]
+example = '''
+```
+Symmetric int8 quantization of a weight tensor w:
+scale = max(|w|) / 127
+q     = round(w / scale)        # int8 in [−127, 127]
+ŵ     = q · scale               # dequantized approximation
+
+KV cache: without it, generating token t recomputes K and V for all previous tokens;
+with it, each new token computes only its own K, V and attends to the cached ones.
+```'''
+
+[[task]]
+id = "distributed-serving"
+title = "Distributed training & inference servers"
+topics = [
+  "Why distribute: memory and speed limits",
+  "Data parallelism (DDP) and gradient all-reduce",
+  "Model parallelism: tensor and pipeline",
+  "Sharding: ZeRO / FSDP",
+  "Inference servers: vLLM, TGI, llama.cpp, Ollama",
+  "Continuous batching and PagedAttention (intuition)",
+  "Serving APIs, load testing and monitoring",
+]
+example = '''
+```
+Data-parallel training on 4 GPUs:
+each GPU holds a full copy of the model and gets 1/4 of the batch
+forward + backward locally → all-reduce (average) the gradients → identical update everywhere
+
+Serving:
+$ vllm serve <model>       →  OpenAI-compatible HTTP API on localhost:8000
+```'''
