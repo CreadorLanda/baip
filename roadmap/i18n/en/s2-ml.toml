@@ -1,0 +1,144 @@
+summary = "Classic machine learning implemented from scratch — and the habits (splits, metrics, validation) every later stage depends on."
+exam = [
+  "On a tabular dataset (e.g. Titanic), build a full pipeline from an empty file: split, preprocessing without leakage, 3 models, 5-fold cross-validation",
+  "Diagnose overfitting from learning curves and fix it",
+  "Explain the precision vs recall trade-off using your own results",
+  "Derive the gradient of the logistic-regression loss on paper",
+]
+
+[task.linear-regression]
+goals = [
+  "Implement linear regression with the normal equation and with gradient descent",
+  "Explain what MSE measures and why it is squared",
+  "Evaluate a regression model with MSE and R²",
+  "Explain why feature scaling matters for gradient descent",
+]
+exercises = [
+  "Fit y = wx + b by hand to (0, 1), (1, 3), (2, 5), (3, 7). *(Answer: w = 2, b = 1 — a perfect fit)*",
+  "Code: implement linear regression with the normal equation and with gradient descent on the California housing dataset (`sklearn.datasets.fetch_california_housing`); compare coefficients and training time.",
+  "Show what happens to gradient descent when one feature is in metres and another in millimetres, then fix it with standardization.",
+  "Fit polynomials of degree 1, 3 and 15 to 20 noisy points of sin(x) and plot them (a first look at overfitting).",
+  "Compare your R² with `sklearn.linear_model.LinearRegression`.",
+]
+check = [
+  "Explain why errors are squared instead of using absolute values, and what changes if you use absolute values",
+  "Explain when the normal equation is a bad idea",
+  "Interpret a coefficient: \"+1 in feature k changes the prediction by w_k\"",
+]
+
+[task.logistic-regression]
+goals = [
+  "Implement logistic regression from scratch with gradient descent",
+  "Derive the gradient of binary cross-entropy",
+  "Plot a decision boundary",
+  "Choose a classification threshold using precision and recall",
+]
+exercises = [
+  "Show that the decision boundary of logistic regression is the line w·x + b = 0.",
+  "Derive ∂L/∂w for binary cross-entropy with a sigmoid output and show it simplifies to (ŷ − y)·x.",
+  "Code: implement logistic regression from scratch on the Breast Cancer dataset (`sklearn.datasets.load_breast_cancer`); report accuracy, precision, recall and the confusion matrix.",
+  "Plot the decision boundary on a 2D toy dataset (two Gaussian blobs).",
+  "Move the threshold from 0.5 to 0.2 and to 0.8 and explain what happens to precision and recall.",
+]
+check = [
+  "Explain why MSE is a bad loss for a sigmoid output",
+  "Explain that the model outputs a probability, not a class",
+  "Explain why logistic regression is a linear classifier",
+]
+
+[task.train-test-split]
+goals = [
+  "Split data correctly, with no leakage",
+  "Implement batch, stochastic and mini-batch gradient descent and compare them",
+  "Plot and read training vs validation curves",
+  "Explain why the test set is used only once",
+]
+exercises = [
+  "Code: write your own `train_test_split(X, y, test_size, seed, stratify)` and check that class proportions are preserved.",
+  "Train the same linear model with batch GD, SGD and mini-batch (32); plot the loss vs number of examples seen.",
+  "Find the leak: a scaler fitted on the full dataset before splitting. Measure how much it inflates the test score.",
+  "Plot learning curves (training and validation error vs training-set size) and say what they tell you about bias and variance.",
+]
+check = [
+  "Explain the difference between the validation and the test set",
+  "Name 3 sources of data leakage",
+  "Explain why the noise in SGD can actually help",
+]
+
+[task.knn-naive-bayes]
+goals = [
+  "Implement k-NN with vectorized distances",
+  "Choose k with a validation set",
+  "Implement Gaussian naive Bayes from scratch",
+  "Explain when each method works well and when it fails",
+]
+exercises = [
+  "Code: implement k-NN with vectorized NumPy distances (no Python loops over pairs), classify Iris and plot accuracy for k = 1…25.",
+  "Show why k-NN needs scaled features: add a feature measured in thousands and watch accuracy drop.",
+  "Code: implement Gaussian naive Bayes (per-class mean and variance) and compare with `sklearn.naive_bayes.GaussianNB`.",
+  "With random points in 2, 10, 100 and 1 000 dimensions, plot the ratio between the nearest and the farthest distance. Explain the curse of dimensionality.",
+]
+check = [
+  "Explain why k-NN has no training step but slow predictions",
+  "Explain the effect of a small vs a large k",
+  "Explain why naive Bayes works for text even though its independence assumption is wrong",
+]
+
+[task.trees-forests]
+goals = [
+  "Compute Gini impurity, entropy and information gain by hand",
+  "Implement a decision tree from scratch",
+  "Build a random forest on top of your tree",
+  "Explain why ensembles reduce variance",
+]
+exercises = [
+  "Compute the entropy and the Gini impurity of a node with 8 positives and 2 negatives. *(Answer: ≈ 0.722 bits; 0.32)*",
+  "Code: implement a decision-tree classifier (Gini, `max_depth`, `min_samples_leaf`) and test it on Iris.",
+  "Code: build a random forest with your tree (bootstrap + random feature subsets) and compare it with a single tree on the Breast Cancer dataset.",
+  "Plot training vs test accuracy as a function of `max_depth` and find where overfitting starts.",
+  "Compare your forest with `RandomForestClassifier` and `GradientBoostingClassifier` from scikit-learn.",
+]
+check = [
+  "Explain why a fully grown tree overfits",
+  "Explain why averaging many trees reduces variance",
+  "Explain the difference between bagging and boosting",
+]
+
+[task.svm-clustering]
+goals = [
+  "Explain the maximum-margin idea and support vectors",
+  "Tune C and gamma of an RBF SVM",
+  "Implement k-means from scratch and choose k",
+  "Explain the kernel trick without formulas",
+]
+exercises = [
+  "Train a linear SVM and an RBF SVM (`sklearn.svm.SVC`) on `make_moons`; plot both decision boundaries and the support vectors.",
+  "Grid-search C and gamma for the RBF SVM and explain what each one controls.",
+  "Code: implement k-means with k-means++ initialization; cluster `make_blobs` data and plot the clusters after each iteration.",
+  "Use the elbow method and the silhouette score to choose k for data with 4 true clusters.",
+  "Compress the colours of an image with your k-means (k = 8 and 16).",
+]
+check = [
+  "Explain what support vectors are and why only they matter",
+  "Explain the kernel trick in plain words",
+  "Explain why k-means gives different results on each run and how k-means++ helps",
+]
+
+[task.generalization]
+goals = [
+  "Diagnose high bias vs high variance",
+  "Apply L1 and L2 regularization and see their effect on the weights",
+  "Implement k-fold cross-validation",
+  "Pick the right metric for imbalanced data",
+]
+exercises = [
+  "Fit polynomial regression of degree 1–15 to noisy data; plot training and validation error vs degree and mark the underfit / good / overfit zones.",
+  "Add L2 and L1 penalties to your linear regression and plot the coefficients as λ grows. Which one sets weights exactly to zero?",
+  "Code: implement 5-fold cross-validation from scratch and use it to choose λ.",
+  "On a 95% / 5% imbalanced dataset, show that always predicting the majority class gives 95% accuracy; then evaluate with precision, recall, F1 and ROC-AUC.",
+]
+check = [
+  "Given training and validation error, say whether the model has high bias or high variance and what to do next",
+  "Explain why L1 gives sparse weights",
+  "Choose a metric for a spam filter, for cancer screening and for search ranking, and justify each",
+]

@@ -1,0 +1,139 @@
+id = "s3"
+title = "Deep Learning"
+months = "7–9"
+studies = "studies/stage-3-deep-learning"
+projects = ["projects/03-autograd-engine", "projects/04-nn-framework"]
+resources = [
+  { title = "Andrej Karpathy — Neural Networks: Zero to Hero", url = "https://karpathy.ai/zero-to-hero.html" },
+  { title = "Karpathy — micrograd (tiny autograd engine)", url = "https://github.com/karpathy/micrograd" },
+  { title = "Dive into Deep Learning (free book)", url = "https://d2l.ai/" },
+  { title = "Stanford CS231n course notes", url = "https://cs231n.github.io/" },
+  { title = "PyTorch tutorials", url = "https://pytorch.org/tutorials/" },
+]
+
+[[task]]
+id = "pytorch-basics"
+title = "PyTorch: tensors, autograd, dataloaders"
+topics = [
+  "Tensors: creation, dtype, device (CPU / GPU)",
+  "Shapes, reshape / view, broadcasting",
+  "Indexing and slicing",
+  "Autograd: requires_grad, backward(), .grad",
+  "nn.Module and parameters",
+  "Optimizers (torch.optim)",
+  "Dataset and DataLoader",
+  "The training loop",
+]
+example = '''
+```python
+import torch
+
+x = torch.tensor([2.0], requires_grad=True)
+y = x**3 + 2*x          # y = 12
+y.backward()
+print(x.grad)           # dy/dx = 3x² + 2 = 14
+
+a = torch.ones(3, 1)    # shape (3, 1)
+b = torch.arange(4.)    # shape (4,)
+print((a + b).shape)    # broadcasting → (3, 4)
+```'''
+
+[[task]]
+id = "perceptron-mlp"
+title = "Perceptron, MLP & activations"
+topics = [
+  "The perceptron and its learning rule",
+  "Linear separability and the XOR problem",
+  "Multi-layer perceptron (MLP)",
+  "Activations: sigmoid, tanh, ReLU, GELU",
+  "Universal approximation (intuition)",
+  "Weight initialization: Xavier, He",
+  "Softmax output + cross-entropy",
+]
+example = '''
+```
+XOR is not linearly separable — one perceptron can't learn it. Two layers can:
+
+h₁ = relu(x₁ + x₂)
+h₂ = relu(x₁ + x₂ − 1)
+y  = h₁ − 2·h₂
+
+(0,0) → 0    (0,1) → 1    (1,0) → 1    (1,1) → 2 − 2·1 = 0   ✓
+```'''
+
+[[task]]
+id = "cnn"
+title = "CNN: convolution, pooling, feature maps"
+topics = [
+  "Convolution as a sliding dot product",
+  "Kernels / filters and feature maps",
+  "Stride, padding and the output-size formula",
+  "Pooling: max, average",
+  "Channels",
+  "Parameter sharing and translation equivariance",
+  "Receptive field",
+  "Classic architectures: LeNet, VGG, ResNet (skip connections)",
+]
+example = '''
+```
+Output size = (W − K + 2P) / S + 1
+
+Input 32×32, kernel 5×5, padding 0, stride 1  →  (32 − 5)/1 + 1 = 28  →  28×28
+then 2×2 max-pool, stride 2                    →  14×14
+
+Vertical-edge kernel:
+[[-1, 0, 1],
+ [-1, 0, 1],
+ [-1, 0, 1]]
+```'''
+
+[[task]]
+id = "image-classifier"
+title = "Image classifier"
+topics = [
+  "End-to-end training pipeline",
+  "Data augmentation: flips, crops, colour jitter",
+  "Input normalization",
+  "Batch normalization and dropout",
+  "Training / validation loop and checkpoints",
+  "Learning-rate schedules",
+  "Transfer learning and fine-tuning a pretrained model",
+  "Error analysis: confusion matrix, worst mistakes",
+]
+example = '''
+```python
+import torchvision.transforms as T
+
+train_tf = T.Compose([
+    T.RandomCrop(32, padding=4),
+    T.RandomHorizontalFlip(),
+    T.ToTensor(),
+    T.Normalize((0.49, 0.48, 0.45), (0.25, 0.24, 0.26)),
+])
+# augmentation only on TRAIN — validation gets ToTensor + Normalize only
+```'''
+
+[[task]]
+id = "rnn-embeddings"
+title = "RNN / LSTM / GRU & embeddings"
+topics = [
+  "Sequential data and variable length",
+  "Token embeddings",
+  "Recurrent neural networks and the hidden state",
+  "Backpropagation through time",
+  "Vanishing and exploding gradients",
+  "LSTM and GRU gates",
+  "Gradient clipping",
+  "Character-level language model and sampling with temperature",
+]
+example = '''
+```
+RNN step:  hₜ = tanh(W_x·xₜ + W_h·hₜ₋₁ + b)
+           yₜ = W_y·hₜ
+
+Unrolled on "cat":
+'c' → h₁ → 'a' → h₂ → 't' → h₃ → prediction
+
+The gradient through T steps multiplies by W_h about T times
+→ it shrinks (vanishes) or blows up (explodes) as T grows
+```'''

@@ -1,0 +1,85 @@
+id = "s4"
+title = "Transformers"
+months = "10–12"
+studies = "studies/stage-4-transformers"
+projects = ["projects/05-tiny-llm"]
+resources = [
+  { title = "Vaswani et al. — Attention Is All You Need", url = "https://arxiv.org/abs/1706.03762" },
+  { title = "Jay Alammar — The Illustrated Transformer", url = "https://jalammar.github.io/illustrated-transformer/" },
+  { title = "3Blue1Brown — Neural networks series (Transformer chapters)", url = "https://www.3blue1brown.com/topics/neural-networks" },
+  { title = "Karpathy — nanoGPT", url = "https://github.com/karpathy/nanoGPT" },
+]
+
+[[task]]
+id = "attention"
+title = "Attention: queries, keys & values"
+topics = [
+  "Why attention: the bottleneck of a fixed-size RNN state",
+  "Queries, keys and values",
+  "Scaled dot-product attention: softmax(QKᵀ / √dₖ) V",
+  "Why divide by √dₖ",
+  "Self-attention vs cross-attention",
+  "Causal (masked) attention",
+  "Attention as a soft lookup table",
+]
+example = '''
+```
+3 tokens, d = 2
+Q = K = V = [[1, 0],
+             [0, 1],
+             [1, 1]]
+
+scores = QKᵀ / √2 =
+[[0.71, 0.00, 0.71],
+ [0.00, 0.71, 0.71],
+ [0.71, 0.71, 1.41]]
+
+weights = softmax(scores) row by row;   output = weights · V
+Causal mask: set scores above the diagonal to −∞ before the softmax
+```'''
+
+[[task]]
+id = "transformer-block"
+title = "Transformer block"
+topics = [
+  "Multi-head attention: split, attend, concat, project",
+  "Positional encodings: sinusoidal, learned, RoPE (intuition)",
+  "Position-wise feed-forward network",
+  "Residual connections",
+  "Layer normalization (pre-LN vs post-LN)",
+  "Encoder vs decoder vs decoder-only",
+  "Parameter counting",
+]
+example = '''
+```
+Pre-LN decoder block:
+
+x = x + MultiHeadAttention(LayerNorm(x), causal=True)
+x = x + FeedForward(LayerNorm(x))     # Linear(d, 4d) → GELU → Linear(4d, d)
+
+d_model = 512, heads = 8   →   d_head = 64
+attention params ≈ 4·d² ≈ 1.05 M        FFN params ≈ 8·d² ≈ 2.1 M
+```'''
+
+[[task]]
+id = "tiny-llm"
+title = "Tiny LLM: tokenizer → training → generation"
+topics = [
+  "Tokenization: characters vs byte-pair encoding (BPE)",
+  "Next-token prediction objective",
+  "Embedding + stacked decoder blocks + LM head",
+  "Training on text: batching sequences",
+  "Loss and perplexity",
+  "Sampling: greedy, temperature, top-k, top-p",
+  "Weight tying",
+]
+example = '''
+```
+Text: "the cat sat"  →  tokens [t, h, e, ␣, c, a, t, ␣, s, a, t]
+
+input : [t, h, e, ␣, c, a, t, ␣, s, a]
+target: [h, e, ␣, c, a, t, ␣, s, a, t]     ← the same sequence shifted by one
+
+loss = cross_entropy(logits.view(-1, vocab), target.view(-1))
+perplexity = exp(loss)        e.g. loss 1.5 → perplexity ≈ 4.5
+```'''

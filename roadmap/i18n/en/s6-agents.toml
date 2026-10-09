@@ -1,0 +1,47 @@
+summary = "Agents that call tools, remember, plan and work together — built from scratch before using any framework."
+exam = [
+  "From an empty file, build an agent with 3 tools that solves a multi-step task",
+  "Show its full trace: reasoning, tool calls, observations",
+  "Evaluate it on a task set and report success rate, average steps and cost",
+  "Explain the failure modes you saw and how you fixed them",
+]
+
+[task.tool-calling]
+goals = [
+  "Build an agent loop from scratch with any LLM API",
+  "Define tools with JSON schemas and validate their arguments",
+  "Handle tool errors and stop runaway loops",
+  "Log and read an agent's trace",
+]
+exercises = [
+  "Code: implement an agent loop without any agent framework, with 2 tools: `calculator` and `read_file`. Use any LLM API or a local model that supports tool calling.",
+  "Define the tools with JSON schemas; validate arguments before running a tool and return a clear error to the model when they are invalid.",
+  "Add a maximum-steps limit and log every step (reasoning / tool call / observation).",
+  "Write 10 tasks that need 1–3 tool calls and measure the success rate.",
+  "Add a dangerous tool (e.g. `delete_file`) that requires user confirmation.",
+]
+check = [
+  "Draw the agent loop on a whiteboard",
+  "Explain why a tool's error messages matter as much as its description",
+  "Explain how to stop an agent from looping forever",
+]
+
+[task.memory-planning]
+goals = [
+  "Give an agent long-term memory",
+  "Implement plan-then-execute",
+  "Add reflection and measure whether it helps",
+  "Build an orchestrator–worker system and evaluate its cost",
+]
+exercises = [
+  "Add long-term memory: save facts to a vector store (reuse your RAG code) and retrieve them in later sessions.",
+  "Implement context compaction: when the conversation passes N tokens, summarize the older turns.",
+  "Implement plan-then-execute (the model writes a numbered plan, then runs each step) and compare it with the plain loop on your 10-task benchmark.",
+  "Add a reflection step before the final answer; measure the change in success rate and the extra tokens it costs.",
+  "Build a 2-agent system (orchestrator + worker) for a multi-step task and log the hand-offs.",
+]
+check = [
+  "Explain short-term vs long-term memory in an agent",
+  "Explain when multi-agent is worth the extra cost and complexity",
+  "Report success rate, average steps and cost per task for your agent",
+]

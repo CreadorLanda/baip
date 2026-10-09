@@ -5,11 +5,29 @@ edit these files, not the issues.
 
 ```
 roadmap/
-├── roadmap.toml     structure: stages, task ids, folders (no text)
-└── i18n/
-    ├── en.toml      English — reference locale, must be complete
-    └── pt.toml      Português
+├── stages/                technical content — always in English
+│   ├── s1-math.toml       stage title, folders, resources,
+│   └── …                  and per task: title, topics, worked example
+└── i18n/                  explanations — one folder per language
+    ├── en/                reference locale, must be complete
+    │   ├── ui.toml        issue headings and label descriptions
+    │   ├── s1-math.toml   summary, exam, and per task: goals, exercises, self-check
+    │   └── …
+    └── pt/                Português (same files)
 ```
+
+**Why topics stay in English:** titles, topic names and worked examples are the
+vocabulary of papers, docs and code. Keeping them in English in every language
+means what you learn matches what you will read and search for. Everything that
+*explains* — goals, exercises, self-checks, exams — is translated.
+
+## What every issue contains
+
+| Issue | Sections |
+|-------|----------|
+| **Epic** (one per stage) | summary · folders · task list · resources · done when |
+| **Task** | 📚 topics · 🎯 goals · 💡 worked example · 🛠️ exercises (with answers) · 🧠 self-check · 📦 deliverables |
+| **Final test** | 📝 exam problems · ✅ wrap-up · pass criterion |
 
 ## Create the issues in your own repo
 
@@ -19,35 +37,37 @@ roadmap/
 
 ```bash
 python3 scripts/sync_issues.py --lang en            # dry run: shows what would change
-python3 scripts/sync_issues.py --lang en --apply    # creates labels + 9 epics, tasks and final tests
+python3 scripts/sync_issues.py --lang en --apply    # creates labels + 9 epics, 40 tasks, 9 final tests
 ```
 
 Re-running is safe: every issue has a hidden `<!-- roadmap-id: ... -->` marker,
 so the script updates existing issues instead of duplicating them. Closed
-issues stay closed.
+issues stay closed — but re-running **overwrites the body**, so ticked
+checkboxes are reset on issues whose text changed.
 
 Other commands:
 
 ```bash
-python3 scripts/sync_issues.py --check              # validate every locale
-python3 scripts/sync_issues.py --preview --lang pt  # print the issues, no GitHub needed
+python3 scripts/sync_issues.py --check                       # validate stages and every locale
+python3 scripts/sync_issues.py --preview --lang pt           # print all issues, no GitHub needed
+python3 scripts/sync_issues.py --preview s1.vectors --lang pt  # print one issue (or a whole stage: s1)
 ```
 
 ## Change the roadmap
 
-- **Edit text** → change it in `i18n/<lang>.toml`, then sync.
-- **Add a task** → add its id to the stage's `tasks` list in `roadmap.toml`,
-  then add `[stage.<id>.task.<task>]` with `title`, `study` and `practice` to
-  `i18n/en.toml` (and any other locale).
-- **Ids are permanent.** Renaming an id creates a new issue; the old one is left
-  as is.
+- **Edit text** → change it in `stages/` (technical) or `i18n/<lang>/` (explanations), then sync.
+- **Add a task** → add a `[[task]]` with `id`, `title`, `topics` and `example`
+  to the stage file, then a `[task.<id>]` with `goals`, `exercises` and `check`
+  to `i18n/en/<stage>.toml` (and any other locale).
+- **Add a stage** → add `stages/sN-name.toml` and `i18n/en/sN-name.toml`.
+  Stages are ordered by file name.
+- **Ids are permanent.** Renaming an id creates a new issue; the old one is left as is.
 
 ## Add a language
 
-1. Copy `i18n/en.toml` to `i18n/<code>.toml` (e.g. `es.toml`, `fr.toml`).
+1. Copy `i18n/en/` to `i18n/<code>/` (e.g. `es/`, `fr/`).
 2. Translate the values. Keep the keys and `{placeholders}` unchanged.
-3. Run `python3 scripts/sync_issues.py --check`. Anything you have not
-   translated yet falls back to English.
+3. Run `python3 scripts/sync_issues.py --check`. Anything not translated yet falls back to English.
 
 Label names (`epic`, `task`, `test`, `stage-N`) are the same in every language
 so filters and links keep working; only their descriptions are translated.

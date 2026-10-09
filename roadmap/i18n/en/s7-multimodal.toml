@@ -1,0 +1,64 @@
+summary = "Vision, audio and video models — and a conductor that routes each request to the right one."
+exam = [
+  "Build a user → conductor → tools pipeline that handles at least 3 modalities",
+  "Explain how ViT and CLIP work, with tensor shapes",
+  "Report routing accuracy and latency on a labelled set of requests",
+  "Demo one multi-step multimodal request end-to-end",
+]
+
+[task.vision]
+goals = [
+  "Implement ViT patch embedding",
+  "Explain CLIP's contrastive objective",
+  "Classify images zero-shot with text prompts",
+  "Build a text-to-image search",
+]
+exercises = [
+  "Code: implement patch embedding (`unfold` or reshape) and check the output shape for a (8, 3, 224, 224) batch with 16×16 patches. *(Answer: (8, 196, d_model))*",
+  "Run CLIP zero-shot classification (e.g. `openai/clip-vit-base-patch32`) on 20 of your own photos with 5 labels; try different prompt templates and compare accuracy.",
+  "Build a text-to-image search over a folder of images with CLIP embeddings + cosine similarity.",
+  "Write CLIP's contrastive loss for a batch of N image–text pairs in PyTorch (symmetric cross-entropy over the N×N similarity matrix).",
+]
+check = [
+  "Explain how a ViT turns an image into a sequence",
+  "Explain why CLIP can classify labels it was never trained on",
+  "Compare the inductive biases of ViTs and CNNs",
+]
+
+[task.audio]
+goals = [
+  "Compute and read mel spectrograms",
+  "Transcribe speech and measure WER",
+  "Build a speech → LLM → speech pipeline",
+  "Measure and reduce latency",
+]
+exercises = [
+  "Load an audio file and plot its waveform, spectrogram and mel spectrogram (`librosa` or `torchaudio`).",
+  "Transcribe 5 recordings of your own voice (English and Portuguese) with Whisper; compute WER against your manual transcripts with `jiwer`.",
+  "Build a voice pipeline: audio → STT → LLM → TTS → audio file; measure the latency of each stage.",
+  "Compare a small and a larger Whisper model on speed and WER.",
+]
+check = [
+  "Explain why models use spectrograms instead of raw waveforms",
+  "Explain what WER measures and its limits",
+  "Name the bottleneck in your pipeline's latency",
+]
+
+[task.conductor]
+goals = [
+  "Design and implement a router",
+  "Evaluate routing accuracy on a labelled set",
+  "Chain models for multi-step multimodal requests",
+  "Handle failures with fallbacks",
+]
+exercises = [
+  "Write 30 example requests across 4 modalities and label the correct route for each.",
+  "Implement 3 routers — keyword rules, an embedding classifier and an LLM router with structured output — and compare accuracy and latency on your 30 requests.",
+  "Chain models for a multi-step request, e.g. \"transcribe this audio and make an image of what it describes\".",
+  "Add fallbacks: when a model fails or times out, route to a backup and log it.",
+]
+check = [
+  "Explain the trade-offs of each router design",
+  "Draw your conductor's architecture with every model and data flow",
+  "Report routing accuracy, average latency and cost per request",
+]

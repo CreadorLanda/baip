@@ -1,0 +1,44 @@
+# Títulos das secções e labels. Qualquer chave em falta usa o valor de en/ui.toml.
+
+[ui]
+stage = "Etapa {n}"
+months = "meses {months}"
+epic_title = "[S{n}] {title} ({months})"
+task_title = "[S{n}] {title}"
+test_title = "[S{n}] Final test — {title}"
+part_of = "Parte de {epic}"
+folders = "Pastas"
+tasks = "Tasks"
+resources = "📖 Recursos"
+done_when = "✅ Fecha quando"
+topics = "📚 Topics"
+goals = "🎯 No fim vais conseguir"
+example = "💡 Exemplo resolvido"
+exercises = "🛠️ Exercícios"
+check = "🧠 Auto-avaliação — dominas o tema quando consegues"
+deliverables = "📦 Entregas"
+exam = "📝 Exame — resolver sem notas nem consulta"
+wrap_up = "✅ Fecho"
+task_done = [
+  "Nota em `{studies}/` a explicar com as tuas palavras",
+  "Código em {projects} (quando aplicável)",
+  "Resumo curto em `notes/`, com link aqui",
+]
+epic_done = [
+  "Todas as tasks fechadas",
+  "Teste final passado",
+  "Post em `blog/posts/`",
+]
+test_intro = "Só começa quando todas as tasks da etapa estiverem fechadas."
+test_wrap_up = [
+  "Rever todas as notas em `{studies}/` antes de começar",
+  "Explicar as soluções em voz alta ou escrever um post em `blog/posts/`",
+  "Abaixo de 80%? Reabre as tasks fracas e tenta outra vez daqui a uma semana",
+]
+test_criterion = "**Critério:** consegues explicar a matemática **e** implementar uma versão simplificada."
+
+[labels]
+epic = "Issue de acompanhamento da etapa"
+task = "Unidade de estudo + prática"
+test = "Teste final que fecha a etapa"
+stage = "Etapa {n} — {title}"

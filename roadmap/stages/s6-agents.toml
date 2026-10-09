@@ -1,0 +1,63 @@
+id = "s6"
+title = "AI Agents"
+months = "16–17"
+studies = "studies/stage-6-agents"
+projects = ["projects/07-ai-agent"]
+resources = [
+  { title = "Yao et al. — ReAct: Synergizing Reasoning and Acting in Language Models", url = "https://arxiv.org/abs/2210.03629" },
+  { title = "Schick et al. — Toolformer", url = "https://arxiv.org/abs/2302.04761" },
+  { title = "Shinn et al. — Reflexion", url = "https://arxiv.org/abs/2303.11366" },
+  { title = "Anthropic — Building effective agents", url = "https://www.anthropic.com/engineering/building-effective-agents" },
+]
+
+[[task]]
+id = "tool-calling"
+title = "Tool calling & the agent loop"
+topics = [
+  "What an agent is: LLM + tools + loop",
+  "Tool / function calling with JSON schemas",
+  "The agent loop: decide → call tool → observe → repeat",
+  "ReAct: reasoning + acting",
+  "Validating tool arguments",
+  "Error handling and retries",
+  "Stop conditions and step limits",
+  "Safety: sandboxed tools, confirmation for dangerous actions",
+]
+example = '''
+```
+User: "What is 23% of 10.6 million?"
+
+LLM  → tool_call  calculator(expr="0.23 * 10.6e6")
+Tool → "2438000"
+LLM  → "About 2.44 million."
+
+Loop:
+while steps < MAX_STEPS:
+    reply = llm(messages, tools)
+    if not reply.tool_calls: return reply.text
+    for call in reply.tool_calls:
+        messages.append(run_tool(call))     # observation goes back to the model
+```'''
+
+[[task]]
+id = "memory-planning"
+title = "Memory, planning & multi-agent systems"
+topics = [
+  "Short-term memory: the context window and its limits",
+  "Long-term memory: storing and retrieving facts (vector store)",
+  "Summarization / context compaction",
+  "Planning: plan-then-execute, task decomposition",
+  "Reflection and self-critique",
+  "Multi-agent patterns: orchestrator–workers, hand-offs",
+  "Evaluating agents: success rate, cost, number of steps",
+]
+example = '''
+```
+Task: "Write a short report comparing 3 sorting algorithms"
+
+Planner   → 1. research each algorithm   2. code + benchmark   3. write report
+Worker A  → step 1   (tools: search, notes)
+Worker B  → step 2   (tools: python)
+Critic    → checks the report against the task, sends back fixes
+Memory    → stores the benchmark results for future tasks
+```'''

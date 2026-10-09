@@ -1,0 +1,66 @@
+summary = "Working with real LLMs: tokenizers, the Hugging Face ecosystem, parameter-efficient fine-tuning and retrieval-augmented generation."
+exam = [
+  "Fine-tune a small model with LoRA and show before / after answers on held-out prompts",
+  "Build, from an empty file, a RAG system over your own notes that answers with citations",
+  "Measure retrieval recall@k on your own question set",
+  "Explain when to use prompting, RAG or fine-tuning — with an example for each",
+]
+
+[task.tokenizers-hf]
+goals = [
+  "Compare tokenizers and explain their trade-offs",
+  "Load and run models from the Hugging Face Hub",
+  "Process datasets efficiently with `datasets`",
+  "Estimate the memory a model needs in each dtype",
+]
+exercises = [
+  "Tokenize the same paragraph in English and in Portuguese with GPT-2, a Llama-family and a multilingual tokenizer; compare token counts. Why does Portuguese often cost more tokens?",
+  "Train your own BPE tokenizer with the `tokenizers` library and compare its vocabulary with your from-scratch BPE from stage 4.",
+  "Load a dataset with `datasets`, tokenize it with `.map(batched=True)`, filter out long examples and save it to disk.",
+  "Compute the memory needed for the weights of a 7B-parameter model in fp32, fp16 and 4-bit. *(Answer: ≈ 28 GB, 14 GB, 3.5 GB)*",
+  "Apply a chat template (`tok.apply_chat_template`) and inspect the exact string the model sees.",
+]
+check = [
+  "Explain why subword tokenization beats word- and character-level tokenization",
+  "Explain what the attention mask does with padding",
+  "Read a model card and find its licence, training data, context length and intended use",
+]
+
+[task.fine-tuning]
+goals = [
+  "Explain the math behind LoRA",
+  "Fine-tune a small model with LoRA using `peft`",
+  "Compare model behaviour before and after fine-tuning",
+  "Explain how QLoRA saves memory",
+]
+exercises = [
+  "Compute the trainable parameters of LoRA with r = 16 on the q and v projections of a 24-layer model with d = 2048. *(Answer: 24 · 2 · (2 · 2048 · 16) ≈ 3.1 M)*",
+  "Code: implement a `LoRALinear` layer in PyTorch (frozen W, trainable A and B, B initialized to zero) and check that its initial output equals the base layer's.",
+  "Fine-tune a small model (e.g. SmolLM2-135M or Qwen2.5-0.5B) with LoRA on an instruction dataset using `peft` + `trl`'s `SFTTrainer`; compare answers on 10 held-out prompts before and after.",
+  "Try QLoRA (4-bit base via `bitsandbytes`) and compare GPU memory and speed with fp16 LoRA.",
+  "Write down how you evaluated the model and what went wrong.",
+]
+check = [
+  "Explain why LoRA works (weight updates are close to low-rank)",
+  "Explain why B is initialized to zero",
+  "Explain when to fine-tune vs prompt vs use RAG",
+]
+
+[task.rag]
+goals = [
+  "Build a RAG pipeline without a framework",
+  "Measure retrieval quality with recall@k",
+  "Improve retrieval with chunk size, hybrid search and reranking",
+  "Make the model answer with citations and say \"I don't know\"",
+]
+exercises = [
+  "Code: build a minimal RAG with no framework: chunk your own `studies/` notes, embed them (e.g. `sentence-transformers/all-MiniLM-L6-v2`), keep the vectors in NumPy, retrieve with cosine similarity (stage 1!) and answer with an LLM.",
+  "Write 20 questions with their correct source chunk; measure recall@1 and recall@5 for chunk sizes 200, 500 and 1 000.",
+  "Add BM25, combine it with dense retrieval (hybrid), then add a cross-encoder reranker; report the change in recall.",
+  "Make the model cite chunk ids and test a question whose answer is not in the documents.",
+]
+check = [
+  "Explain how chunk size affects retrieval and answers",
+  "Explain why a reranker helps and what it costs",
+  "Tell a retrieval failure apart from a generation failure",
+]

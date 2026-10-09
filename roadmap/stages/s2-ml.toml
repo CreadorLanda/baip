@@ -1,0 +1,184 @@
+id = "s2"
+title = "Machine Learning"
+months = "4–6"
+studies = "studies/stage-2-ml"
+projects = ["projects/02-classic-ml"]
+resources = [
+  { title = "James et al. — An Introduction to Statistical Learning (free book)", url = "https://www.statlearning.com/" },
+  { title = "Andrew Ng — Machine Learning Specialization", url = "https://www.coursera.org/specializations/machine-learning-introduction" },
+  { title = "scikit-learn User Guide", url = "https://scikit-learn.org/stable/user_guide.html" },
+  { title = "StatQuest with Josh Starmer", url = "https://www.youtube.com/@statquest" },
+]
+
+[[task]]
+id = "linear-regression"
+title = "Linear regression"
+topics = [
+  "Supervised learning setup: features X, target y",
+  "Hypothesis ŷ = Xw + b",
+  "Mean squared error (MSE) loss",
+  "Closed form: normal equation w = (XᵀX)⁻¹Xᵀy",
+  "Solving with gradient descent",
+  "Feature scaling (standardization)",
+  "R² score",
+  "Polynomial features",
+]
+example = '''
+```
+Data:  x = [1, 2, 3],   y = [2, 4, 6.5]
+
+X = [[1, 1],        ← first column of 1s = bias
+     [1, 2],
+     [1, 3]]
+
+w = (XᵀX)⁻¹ Xᵀ y   →   b ≈ −0.33,  slope ≈ 2.25
+Prediction for x = 4:   −0.33 + 2.25·4 ≈ 8.67
+```'''
+
+[[task]]
+id = "logistic-regression"
+title = "Logistic regression & log loss"
+topics = [
+  "Binary classification",
+  "Sigmoid function as a probability",
+  "Decision boundary w·x + b = 0",
+  "Binary cross-entropy (log loss)",
+  "Gradient of the log loss: (ŷ − y)·x",
+  "Choosing a threshold",
+  "Softmax regression (multi-class)",
+  "Confusion matrix, accuracy, precision, recall",
+]
+example = '''
+```
+w = [2, −1],   b = −1,   x = [1, 0.5]
+
+z = 2·1 − 1·0.5 − 1 = 0.5
+ŷ = σ(0.5) ≈ 0.622          → predict class 1 (threshold 0.5)
+
+If true y = 1:  loss = −log(0.622)     ≈ 0.474
+If true y = 0:  loss = −log(1 − 0.622) ≈ 0.974
+```'''
+
+[[task]]
+id = "train-test-split"
+title = "Gradient descent variants + train/validation/test split"
+topics = [
+  "Generalization",
+  "Training, validation and test sets",
+  "Data leakage",
+  "Batch, stochastic and mini-batch gradient descent",
+  "Epochs and iterations",
+  "Learning curves",
+  "Stratified splits",
+  "Random seeds and reproducibility",
+]
+example = '''
+```python
+rng = np.random.default_rng(42)
+idx = rng.permutation(len(X))
+cut = int(0.8 * len(X))
+train, test = idx[:cut], idx[cut:]
+
+# fit the scaler on TRAIN only — fitting on all data leaks test information
+mu, sd = X[train].mean(0), X[train].std(0)
+X_train = (X[train] - mu) / sd
+X_test  = (X[test]  - mu) / sd
+```'''
+
+[[task]]
+id = "knn-naive-bayes"
+title = "k-NN & Naive Bayes"
+topics = [
+  "Instance-based learning",
+  "Distance metrics: Euclidean, Manhattan, cosine",
+  "Choosing k (bias vs variance)",
+  "Curse of dimensionality",
+  "Naive Bayes and the conditional-independence assumption",
+  "Gaussian and multinomial naive Bayes",
+  "Laplace smoothing",
+]
+example = '''
+```
+Training:  A(1, 1) red,  B(2, 2) red,  C(5, 5) blue,  D(6, 5) blue
+Query:     q = (3, 3)
+
+d(q, A) = 2.83   d(q, B) = 1.41   d(q, C) = 2.83   d(q, D) = 3.61
+
+k = 1  →  nearest: B                     → red
+k = 3  →  B, A, C  →  red, red, blue     → red (majority)
+```'''
+
+[[task]]
+id = "trees-forests"
+title = "Decision trees & random forests"
+topics = [
+  "Recursive splitting",
+  "Impurity: Gini and entropy",
+  "Information gain",
+  "Depth, min samples per leaf, pruning",
+  "Bagging and bootstrap samples",
+  "Random forests: feature subsampling",
+  "Feature importance",
+  "Gradient boosting (intuition)",
+]
+example = '''
+```
+Node with 10 samples: 6 yes, 4 no
+Gini = 1 − (0.6² + 0.4²) = 0.48
+
+Split on "age < 30":
+  left : 4 yes, 0 no   →  Gini = 0
+  right: 2 yes, 4 no   →  Gini = 1 − (1/3)² − (2/3)² ≈ 0.444
+
+Weighted Gini = 0.4·0 + 0.6·0.444 ≈ 0.267    → gain = 0.48 − 0.267 = 0.213
+```'''
+
+[[task]]
+id = "svm-clustering"
+title = "SVM & clustering"
+topics = [
+  "Maximum-margin classifier",
+  "Support vectors",
+  "Hinge loss",
+  "Soft margin and the C parameter",
+  "Kernel trick: polynomial, RBF",
+  "Unsupervised learning",
+  "k-means (Lloyd's algorithm) and k-means++",
+  "Choosing k: elbow method, silhouette score",
+]
+example = '''
+```
+k-means, k = 2, points (1D): 1, 2, 3, 10, 11, 12
+init centroids: c₁ = 1, c₂ = 2
+
+assign:  {1} → c₁        {2, 3, 10, 11, 12} → c₂
+update:  c₁ = 1          c₂ = 7.6
+assign:  {1, 2, 3} → c₁  {10, 11, 12} → c₂
+update:  c₁ = 2          c₂ = 11        → no change: converged
+```'''
+
+[[task]]
+id = "generalization"
+title = "Overfitting, bias/variance, regularization, cross-validation & metrics"
+topics = [
+  "Underfitting vs overfitting",
+  "Bias–variance trade-off",
+  "L2 (ridge) and L1 (lasso) regularization",
+  "Early stopping",
+  "k-fold cross-validation",
+  "Hyperparameter search: grid and random",
+  "Metrics: accuracy, precision, recall, F1, ROC-AUC",
+  "Class imbalance",
+]
+example = '''
+```
+Confusion matrix (positive = fraud):
+                 predicted +   predicted −
+actual +             40            10
+actual −             20           930
+
+precision = 40 / (40 + 20)   ≈ 0.667
+recall    = 40 / (40 + 10)   = 0.80
+F1        = 2PR / (P + R)    ≈ 0.727
+accuracy  = 970 / 1000       = 0.97   ← looks great, hides 10 missed frauds
+```'''

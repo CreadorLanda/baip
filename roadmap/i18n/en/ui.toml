@@ -1,0 +1,45 @@
+# Issue headings and labels. Placeholders in {braces} are filled by the script.
+# This is the reference locale: every other locale falls back to it.
+
+[ui]
+stage = "Stage {n}"
+months = "months {months}"
+epic_title = "[S{n}] {title} ({months})"
+task_title = "[S{n}] {title}"
+test_title = "[S{n}] Final test — {title}"
+part_of = "Part of {epic}"
+folders = "Folders"
+tasks = "Tasks"
+resources = "📖 Resources"
+done_when = "✅ Done when"
+topics = "📚 Topics"
+goals = "🎯 By the end you can"
+example = "💡 Worked example"
+exercises = "🛠️ Exercises"
+check = "🧠 Self-check — you've got it when you can"
+deliverables = "📦 Deliverables"
+exam = "📝 Exam — solve without notes or references"
+wrap_up = "✅ Wrap-up"
+task_done = [
+  "Note in `{studies}/` explaining it in your own words",
+  "Code in {projects} (when applicable)",
+  "Short summary in `notes/`, linked here",
+]
+epic_done = [
+  "All tasks closed",
+  "Final test passed",
+  "Post in `blog/posts/`",
+]
+test_intro = "Only start this once every task in the stage is closed."
+test_wrap_up = [
+  "Review all notes in `{studies}/` before starting",
+  "Explain your solutions out loud or write a post in `blog/posts/`",
+  "Scored below 80%? Reopen the weak tasks and try again in a week",
+]
+test_criterion = "**Pass criterion:** you can explain the math **and** implement a simplified version."
+
+[labels]
+epic = "Stage-level tracking issue"
+task = "Unit of study + practice"
+test = "Final test that closes a stage"
+stage = "Stage {n} — {title}"

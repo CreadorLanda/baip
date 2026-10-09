@@ -20,19 +20,42 @@ body:
     validations:
       required: true
   - type: textarea
-    id: study
+    id: topics
     attributes:
-      label: 🎯 Study
-      description: Concepts to understand.
+      label: 📚 Topics
+      description: The concepts covered, one per line (in English).
+      placeholder: |
+        - Dot product
+        - Cosine similarity
     validations:
       required: true
   - type: textarea
-    id: practice
+    id: goals
     attributes:
-      label: 🛠️ Practice
-      description: What you will build or solve.
+      label: 🎯 By the end you can
+      description: Concrete things you will be able to do.
     validations:
       required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: 💡 Worked example
+      description: A small solved example that shows the idea.
+  - type: textarea
+    id: exercises
+    attributes:
+      label: 🛠️ Exercises
+      description: Problems to solve, with answers where possible.
+      value: |
+        - [ ]
+    validations:
+      required: true
+  - type: textarea
+    id: check
+    attributes:
+      label: 🧠 Self-check — you've got it when you can
+      value: |
+        - [ ]
   - type: checkboxes
     id: done
     attributes:

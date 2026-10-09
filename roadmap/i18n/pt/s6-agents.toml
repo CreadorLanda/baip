@@ -1,0 +1,47 @@
+summary = "Agentes que chamam ferramentas, lembram-se, planeiam e trabalham em conjunto — construídos do zero antes de usar qualquer framework."
+exam = [
+  "A partir de um ficheiro vazio, construir um agente com 3 ferramentas que resolve uma tarefa de vários passos",
+  "Mostrar o trace completo: raciocínio, tool calls, observações",
+  "Avaliá-lo num conjunto de tarefas e reportar taxa de sucesso, média de passos e custo",
+  "Explicar os modos de falha que viste e como os corrigiste",
+]
+
+[task.tool-calling]
+goals = [
+  "Construir um agent loop do zero com qualquer API de LLM",
+  "Definir ferramentas com JSON schemas e validar os seus argumentos",
+  "Lidar com erros das ferramentas e travar loops descontrolados",
+  "Registar e ler o trace de um agente",
+]
+exercises = [
+  "Código: implementa um agent loop sem qualquer framework de agentes, com 2 ferramentas: `calculator` e `read_file`. Usa qualquer API de LLM ou modelo local que suporte tool calling.",
+  "Define as ferramentas com JSON schemas; valida os argumentos antes de correr a ferramenta e devolve ao modelo um erro claro quando são inválidos.",
+  "Junta um limite máximo de passos e regista cada passo (raciocínio / tool call / observação).",
+  "Escreve 10 tarefas que precisem de 1–3 tool calls e mede a taxa de sucesso.",
+  "Junta uma ferramenta perigosa (ex.: `delete_file`) que exige confirmação do utilizador.",
+]
+check = [
+  "Desenhar o agent loop num quadro",
+  "Explicar porque é que as mensagens de erro de uma ferramenta importam tanto como a sua descrição",
+  "Explicar como impedir um agente de entrar em loop infinito",
+]
+
+[task.memory-planning]
+goals = [
+  "Dar memória de longo prazo a um agente",
+  "Implementar plan-then-execute",
+  "Juntar reflexão e medir se ajuda",
+  "Construir um sistema orquestrador–workers e avaliar o custo",
+]
+exercises = [
+  "Junta memória de longo prazo: guarda factos numa vector store (reutiliza o teu código de RAG) e recupera-os em sessões seguintes.",
+  "Implementa compactação de contexto: quando a conversa passa N tokens, resume os turnos mais antigos.",
+  "Implementa plan-then-execute (o modelo escreve um plano numerado e depois executa cada passo) e compara com o loop simples no teu benchmark de 10 tarefas.",
+  "Junta um passo de reflexão antes da resposta final; mede a mudança na taxa de sucesso e os tokens extra que custa.",
+  "Constrói um sistema com 2 agentes (orquestrador + worker) para uma tarefa de vários passos e regista as passagens de tarefa.",
+]
+check = [
+  "Explicar memória de curto vs longo prazo num agente",
+  "Explicar quando é que multi-agente compensa o custo e a complexidade extra",
+  "Reportar taxa de sucesso, média de passos e custo por tarefa do teu agente",
+]

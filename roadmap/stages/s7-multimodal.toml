@@ -1,0 +1,79 @@
+id = "s7"
+title = "Multimodal AI"
+months = "18–19"
+studies = "studies/stage-7-multimodal"
+projects = ["projects/08-multimodal", "projects/09-conductor"]
+resources = [
+  { title = "Dosovitskiy et al. — An Image is Worth 16x16 Words (ViT)", url = "https://arxiv.org/abs/2010.11929" },
+  { title = "Radford et al. — Learning Transferable Visual Models From Natural Language Supervision (CLIP)", url = "https://arxiv.org/abs/2103.00020" },
+  { title = "Radford et al. — Robust Speech Recognition via Large-Scale Weak Supervision (Whisper)", url = "https://arxiv.org/abs/2212.04356" },
+  { title = "Hugging Face — Audio Course", url = "https://huggingface.co/learn/audio-course" },
+]
+
+[[task]]
+id = "vision"
+title = "Vision: ViT & CLIP"
+topics = [
+  "Images as tensors",
+  "Vision Transformer (ViT): patches as tokens",
+  "Patch embedding, [CLS] token, position embeddings",
+  "Contrastive learning",
+  "CLIP: image and text encoders in a shared space",
+  "Zero-shot classification with text prompts",
+  "Image embeddings for search",
+]
+example = '''
+```
+ViT on a 224×224 image with 16×16 patches:
+(224 / 16)² = 196 patches,  each 16·16·3 = 768 values  →  linear  →  d_model
+sequence = [CLS] + 196 patch tokens = 197 tokens
+
+CLIP zero-shot:
+texts  = ["a photo of a cat", "a photo of a dog"]
+scores = cosine(image_emb, text_embs) → softmax → prediction
+```'''
+
+[[task]]
+id = "audio"
+title = "Audio: speech-to-text & text-to-speech"
+topics = [
+  "Digital audio: sample rate, waveform",
+  "Spectrograms and mel spectrograms",
+  "Speech-to-text (ASR) with Whisper's encoder–decoder",
+  "Audio embeddings",
+  "Text-to-speech (TTS) basics",
+  "Latency and streaming",
+  "Word error rate (WER)",
+]
+example = '''
+```
+16 kHz audio, 10 s  →  160 000 samples
+STFT: 25 ms window (400 samples), 10 ms hop (160 samples)  →  ~1 000 frames
+80 mel bins  →  mel spectrogram of shape (80, ~1 000)
+              ← the kind of input Whisper's encoder sees
+
+WER = (substitutions + deletions + insertions) / words in the reference
+```'''
+
+[[task]]
+id = "conductor"
+title = "Conductor model: routing between models"
+topics = [
+  "Routing: choosing the right model / tool for each request",
+  "Router designs: rules, embedding classifier, LLM-as-router",
+  "Multimodal inputs and outputs: text, image, audio, video",
+  "Orchestrating model pipelines",
+  "Cost / latency / quality trade-offs",
+  "Fallbacks and error handling",
+  "Evaluating a router: routing accuracy",
+]
+example = '''
+```
+request ──► Conductor (router)
+            ├─ "describe this photo"     → vision model
+            ├─ "transcribe this audio"   → Whisper
+            ├─ "make an image of …"      → image-generation model
+            └─ "summarize this text"     → LLM
+
+router output: {"task": "transcribe", "model": "whisper-small", "args": {...}}
+```'''

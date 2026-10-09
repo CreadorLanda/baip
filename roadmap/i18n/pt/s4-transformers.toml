@@ -1,0 +1,67 @@
+summary = "Da attention ao teu próprio language model pequeno, escrito e treinado do zero."
+exam = [
+  "Derivar no papel a scaled dot-product attention e explicar cada termo",
+  "Implementar multi-head causal self-attention a partir de um ficheiro vazio",
+  "Gerar texto com o teu modelo treinado e reportar a perplexity de validação",
+  "Explicar o forward completo de um Transformer decoder-only, com shapes",
+]
+
+[task.attention]
+goals = [
+  "Calcular attention à mão num exemplo pequeno",
+  "Implementar attention em batch com causal mask",
+  "Explicar porque é que os scores são divididos por √dₖ",
+  "Visualizar e interpretar os pesos de attention",
+]
+exercises = [
+  "Termina o exemplo resolvido: calcula os pesos da softmax da primeira linha e o vetor de saída. *(Resposta: ≈ [0.40, 0.20, 0.40] → saída ≈ [0.80, 0.60])*",
+  "Código: implementa `attention(Q, K, V, mask=None)` em NumPy para inputs de shape (batch, seq, d) e testa contra `torch.nn.functional.scaled_dot_product_attention`.",
+  "Gera Q e K aleatórios com d = 4, 64 e 512 e compara a softmax com e sem o fator √dₖ. O que acontece aos pesos?",
+  "Implementa a causal mask e prova que o token t não vê tokens depois de t (muda um token futuro e confirma que as saídas anteriores não mudam).",
+  "Desenha a matriz de pesos de attention de uma frase curta como heatmap.",
+]
+check = [
+  "Explicar Q, K e V com a analogia do motor de pesquisa",
+  "Explicar porque é que a attention custa O(n²) no comprimento da sequência",
+  "Explicar para que serve a causal mask",
+]
+
+[task.transformer-block]
+goals = [
+  "Implementar multi-head attention do zero",
+  "Montar um bloco Transformer completo",
+  "Explicar o que fazem os residuais e a LayerNorm em redes profundas",
+  "Contar os parâmetros de um bloco à mão",
+]
+exercises = [
+  "Código: implementa `MultiHeadAttention` em PyTorch sem `nn.MultiheadAttention`; confirma o shape de saída para batch = 2, seq = 10, d = 64, heads = 4.",
+  "Implementa positional encoding sinusoidal e desenha-o. Mostra que sem posições a self-attention é equivariante a permutações (baralhas o input → as saídas baralham da mesma forma).",
+  "Monta um bloco decoder pre-LN (attention, FFN, residuais, LayerNorm) e faz um forward.",
+  "Conta os parâmetros do teu bloco à mão e compara com `sum(p.numel() for p in block.parameters())`.",
+  "Lê as secções 3.1–3.5 de \"Attention Is All You Need\" e escreve um resumo de uma página em `papers/`.",
+]
+check = [
+  "Explicar porque é que várias heads ajudam",
+  "Explicar o que fazem as residual connections e a LayerNorm",
+  "Explicar encoder-only (BERT) vs decoder-only (GPT) vs encoder-decoder (T5)",
+]
+
+[task.tiny-llm]
+goals = [
+  "Implementar um tokenizer BPE simples",
+  "Construir e treinar um modelo estilo GPT",
+  "Gerar texto com diferentes estratégias de sampling",
+  "Medir loss e perplexity em texto de validação",
+]
+exercises = [
+  "Código: implementa byte-pair encoding: aprende merges num corpus pequeno, escreve `encode` / `decode` e confirma que `decode(encode(s)) == s`.",
+  "Constrói um modelo estilo GPT (embedding, posições, N blocos decoder, LM head) e treina-o no Tiny Shakespeare (~1 MB).",
+  "Regista loss e perplexity de treino / validação e guarda checkpoints.",
+  "Implementa sampling greedy, temperature, top-k e top-p; gera 200 tokens com cada um e compara.",
+  "Ablação: 2 vs 4 vs 6 camadas, ou contexto 64 vs 256 — faz uma tabela com a loss de validação.",
+]
+check = [
+  "Explicar porque é que o modelo é treinado para prever o próximo token",
+  "Explicar porque é que a loss na inicialização deve ser ≈ ln(vocab_size)",
+  "Explicar os trade-offs entre temperature, top-k e top-p",
+]

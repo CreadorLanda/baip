@@ -1,0 +1,65 @@
+summary = "Read, reproduce, research: from consuming papers to producing your own results."
+exam = [
+  "Present your research in 10 minutes and answer questions (a \"defense\")",
+  "Show the reproducible repository of the paper you reproduced, running with one command",
+  "Summarize 3 papers you read this stage, including their limitations",
+]
+
+[task.paper-routine]
+goals = [
+  "Read papers with the three-pass method",
+  "Summarize any paper with a fixed template",
+  "Judge whether the experiments support the claims",
+  "Keep a sustainable reading routine",
+]
+exercises = [
+  "Read S. Keshav's \"How to Read a Paper\" and apply the three-pass method to your next 3 papers.",
+  "Write 3 reviews in `papers/` with the template above (suggested: ResNet, Attention Is All You Need, LoRA).",
+  "For one paper, list every baseline and ablation and decide whether the main claim is really supported.",
+  "Keep a reading log (title, date, one-line takeaway) for 4 weeks at 2–4 papers per week.",
+]
+check = [
+  "Summarize a paper out loud in 2 minutes",
+  "Point out at least one limitation or missing experiment in each paper",
+  "Find a paper's code and data, or note that they are missing",
+]
+
+[task.reproduce-paper]
+goals = [
+  "Pick a paper that fits your compute",
+  "Re-implement its main result from the text",
+  "Track experiments rigorously",
+  "Publish a repository anyone can reproduce",
+]
+exercises = [
+  "Pick a paper whose main result fits your compute (e.g. a small-scale result from ResNet, Dropout or LoRA) and write down the exact table or figure you will reproduce.",
+  "Re-implement the method from the paper itself — use the official code only to debug.",
+  "Track every run (config, seed, metrics) and run at least 3 seeds for the main result.",
+  "Publish the repo with a README: setup, one command to reproduce, your numbers next to the paper's, and an honest list of differences.",
+  "Write a blog post about what was hard to reproduce.",
+]
+check = [
+  "Someone else can clone your repo and get your numbers with one command",
+  "Explain every gap between your numbers and the paper's",
+  "Explain why multiple seeds matter",
+]
+
+[task.own-research]
+goals = [
+  "Formulate a falsifiable research question",
+  "Design experiments with baselines and ablations",
+  "Report results with statistical rigour",
+  "Write up and publish your work",
+]
+exercises = [
+  "Write 5 candidate questions from the limitations sections of papers you reviewed; pick one by interest, novelty and feasible compute.",
+  "Write a one-page proposal: question, hypothesis, experiments, baselines, metrics, and what result would prove you wrong.",
+  "Run the experiments with ablations and several seeds; keep a lab notebook in `notes/`.",
+  "Write it up as a short paper (4–8 pages, workshop format) with figures and related work.",
+  "Publish the code and the write-up (arXiv, workshop or blog) and ask 2 people for feedback.",
+]
+check = [
+  "State your hypothesis and what would falsify it in one sentence",
+  "Defend every design choice in your experiments",
+  "Explain what is new in your work compared with related work",
+]

@@ -1,0 +1,144 @@
+summary = "Machine learning clássico implementado do zero — e os hábitos (splits, métricas, validação) de que todas as etapas seguintes dependem."
+exam = [
+  "Num dataset tabular (ex.: Titanic), construir um pipeline completo a partir de um ficheiro vazio: split, pré-processamento sem leakage, 3 modelos, cross-validation com 5 folds",
+  "Diagnosticar overfitting a partir das learning curves e corrigi-lo",
+  "Explicar o trade-off entre precision e recall com os teus próprios resultados",
+  "Derivar no papel o gradiente da loss da regressão logística",
+]
+
+[task.linear-regression]
+goals = [
+  "Implementar regressão linear com a equação normal e com gradient descent",
+  "Explicar o que a MSE mede e porque é ao quadrado",
+  "Avaliar um modelo de regressão com MSE e R²",
+  "Explicar porque é que o feature scaling importa para o gradient descent",
+]
+exercises = [
+  "Ajusta y = wx + b à mão a (0, 1), (1, 3), (2, 5), (3, 7). *(Resposta: w = 2, b = 1 — ajuste perfeito)*",
+  "Código: implementa regressão linear com a equação normal e com gradient descent no dataset California housing (`sklearn.datasets.fetch_california_housing`); compara coeficientes e tempo de treino.",
+  "Mostra o que acontece ao gradient descent quando uma feature está em metros e outra em milímetros, e corrige com standardization.",
+  "Ajusta polinómios de grau 1, 3 e 15 a 20 pontos com ruído de sin(x) e desenha-os (primeiro contacto com overfitting).",
+  "Compara o teu R² com o de `sklearn.linear_model.LinearRegression`.",
+]
+check = [
+  "Explicar porque é que os erros vão ao quadrado em vez de usar valor absoluto, e o que muda se usares valor absoluto",
+  "Explicar quando é que a equação normal é má ideia",
+  "Interpretar um coeficiente: \"+1 na feature k muda a previsão em w_k\"",
+]
+
+[task.logistic-regression]
+goals = [
+  "Implementar regressão logística do zero com gradient descent",
+  "Derivar o gradiente da binary cross-entropy",
+  "Desenhar uma fronteira de decisão",
+  "Escolher o threshold de classificação usando precision e recall",
+]
+exercises = [
+  "Mostra que a fronteira de decisão da regressão logística é a reta w·x + b = 0.",
+  "Deriva ∂L/∂w da binary cross-entropy com saída sigmoid e mostra que simplifica para (ŷ − y)·x.",
+  "Código: implementa regressão logística do zero no dataset Breast Cancer (`sklearn.datasets.load_breast_cancer`); reporta accuracy, precision, recall e a matriz de confusão.",
+  "Desenha a fronteira de decisão num dataset 2D de brincar (duas nuvens gaussianas).",
+  "Muda o threshold de 0.5 para 0.2 e para 0.8 e explica o que acontece à precision e ao recall.",
+]
+check = [
+  "Explicar porque é que a MSE é má loss para uma saída sigmoid",
+  "Explicar que o modelo devolve uma probabilidade, não uma classe",
+  "Explicar porque é que a regressão logística é um classificador linear",
+]
+
+[task.train-test-split]
+goals = [
+  "Dividir os dados corretamente, sem leakage",
+  "Implementar batch, stochastic e mini-batch gradient descent e compará-los",
+  "Desenhar e ler curvas de treino vs validação",
+  "Explicar porque é que o test set só se usa uma vez",
+]
+exercises = [
+  "Código: escreve a tua própria `train_test_split(X, y, test_size, seed, stratify)` e confirma que as proporções das classes se mantêm.",
+  "Treina o mesmo modelo linear com batch GD, SGD e mini-batch (32); desenha a loss vs número de exemplos vistos.",
+  "Encontra o leak: um scaler ajustado ao dataset inteiro antes do split. Mede quanto inflaciona o resultado no teste.",
+  "Desenha learning curves (erro de treino e de validação vs tamanho do treino) e diz o que mostram sobre bias e variance.",
+]
+check = [
+  "Explicar a diferença entre validation set e test set",
+  "Indicar 3 fontes de data leakage",
+  "Explicar porque é que o ruído do SGD pode até ajudar",
+]
+
+[task.knn-naive-bayes]
+goals = [
+  "Implementar k-NN com distâncias vetorizadas",
+  "Escolher k com um validation set",
+  "Implementar Gaussian naive Bayes do zero",
+  "Explicar quando cada método funciona bem e quando falha",
+]
+exercises = [
+  "Código: implementa k-NN com distâncias vetorizadas em NumPy (sem loops Python sobre pares), classifica o Iris e desenha a accuracy para k = 1…25.",
+  "Mostra porque é que o k-NN precisa de features escaladas: junta uma feature medida em milhares e vê a accuracy cair.",
+  "Código: implementa Gaussian naive Bayes (média e variância por classe) e compara com `sklearn.naive_bayes.GaussianNB`.",
+  "Com pontos aleatórios em 2, 10, 100 e 1 000 dimensões, desenha o rácio entre a distância mínima e a máxima. Explica a maldição da dimensionalidade.",
+]
+check = [
+  "Explicar porque é que o k-NN não tem treino mas tem previsões lentas",
+  "Explicar o efeito de um k pequeno vs grande",
+  "Explicar porque é que o naive Bayes funciona em texto apesar de a hipótese de independência ser falsa",
+]
+
+[task.trees-forests]
+goals = [
+  "Calcular Gini, entropia e information gain à mão",
+  "Implementar uma árvore de decisão do zero",
+  "Construir uma random forest em cima da tua árvore",
+  "Explicar porque é que os ensembles reduzem a variance",
+]
+exercises = [
+  "Calcula a entropia e o Gini de um nó com 8 positivos e 2 negativos. *(Resposta: ≈ 0.722 bits; 0.32)*",
+  "Código: implementa um classificador de árvore de decisão (Gini, `max_depth`, `min_samples_leaf`) e testa-o no Iris.",
+  "Código: constrói uma random forest com a tua árvore (bootstrap + subconjuntos aleatórios de features) e compara-a com uma só árvore no Breast Cancer.",
+  "Desenha a accuracy de treino vs teste em função de `max_depth` e encontra onde começa o overfitting.",
+  "Compara a tua floresta com `RandomForestClassifier` e `GradientBoostingClassifier` do scikit-learn.",
+]
+check = [
+  "Explicar porque é que uma árvore crescida até ao fim faz overfitting",
+  "Explicar porque é que a média de muitas árvores reduz a variance",
+  "Explicar a diferença entre bagging e boosting",
+]
+
+[task.svm-clustering]
+goals = [
+  "Explicar a ideia de margem máxima e os support vectors",
+  "Afinar C e gamma de uma SVM RBF",
+  "Implementar k-means do zero e escolher k",
+  "Explicar o kernel trick sem fórmulas",
+]
+exercises = [
+  "Treina uma SVM linear e uma SVM RBF (`sklearn.svm.SVC`) em `make_moons`; desenha as duas fronteiras e os support vectors.",
+  "Faz grid search de C e gamma na SVM RBF e explica o que cada um controla.",
+  "Código: implementa k-means com inicialização k-means++; agrupa dados de `make_blobs` e desenha os clusters a cada iteração.",
+  "Usa o método do cotovelo e o silhouette score para escolher k em dados com 4 clusters verdadeiros.",
+  "Comprime as cores de uma imagem com o teu k-means (k = 8 e 16).",
+]
+check = [
+  "Explicar o que são os support vectors e porque só eles importam",
+  "Explicar o kernel trick em palavras simples",
+  "Explicar porque é que o k-means dá resultados diferentes a cada execução e como o k-means++ ajuda",
+]
+
+[task.generalization]
+goals = [
+  "Diagnosticar high bias vs high variance",
+  "Aplicar regularização L1 e L2 e ver o efeito nos pesos",
+  "Implementar k-fold cross-validation",
+  "Escolher a métrica certa para dados desbalanceados",
+]
+exercises = [
+  "Ajusta regressão polinomial de grau 1–15 a dados com ruído; desenha o erro de treino e de validação vs grau e marca as zonas de underfit / bom / overfit.",
+  "Junta penalizações L2 e L1 à tua regressão linear e desenha os coeficientes à medida que λ cresce. Qual põe pesos exatamente a zero?",
+  "Código: implementa cross-validation com 5 folds do zero e usa-a para escolher λ.",
+  "Num dataset 95% / 5%, mostra que prever sempre a classe maioritária dá 95% de accuracy; depois avalia com precision, recall, F1 e ROC-AUC.",
+]
+check = [
+  "Dados o erro de treino e de validação, dizer se o modelo tem high bias ou high variance e o que fazer a seguir",
+  "Explicar porque é que L1 dá pesos esparsos",
+  "Escolher uma métrica para um filtro de spam, um rastreio de cancro e um ranking de pesquisa, e justificar cada uma",
+]
