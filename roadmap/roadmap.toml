@@ -1,0 +1,120 @@
+# Roadmap structure — language-neutral.
+#
+# This file defines WHAT exists (stages, tasks, folders). All human-readable
+# text lives in roadmap/i18n/<lang>.toml, keyed by the ids below.
+#
+# Ids are permanent: they are written into each GitHub issue as a hidden marker
+# so `scripts/sync_issues.py` can find and update the issue later. Renaming an
+# id makes the script create a new issue.
+
+[[stage]]
+id = "s1"
+months = "1–3"
+studies = "studies/stage-1-math"
+projects = ["projects/01-math-from-scratch"]
+tasks = [
+  "vectors",
+  "matrices",
+  "linear-systems",
+  "eigen-svd-pca",
+  "derivatives",
+  "gradient",
+  "chain-rule",
+  "gradient-descent",
+  "probability-bayes",
+  "distributions",
+  "entropy-kl",
+]
+
+[[stage]]
+id = "s2"
+months = "4–6"
+studies = "studies/stage-2-ml"
+projects = ["projects/02-classic-ml"]
+tasks = [
+  "linear-regression",
+  "logistic-regression",
+  "train-test-split",
+  "knn-naive-bayes",
+  "trees-forests",
+  "svm-clustering",
+  "generalization",
+]
+
+[[stage]]
+id = "s3"
+months = "7–9"
+studies = "studies/stage-3-deep-learning"
+projects = ["projects/03-autograd-engine", "projects/04-nn-framework"]
+tasks = [
+  "pytorch-basics",
+  "perceptron-mlp",
+  "cnn",
+  "image-classifier",
+  "rnn-embeddings",
+]
+
+[[stage]]
+id = "s4"
+months = "10–12"
+studies = "studies/stage-4-transformers"
+projects = ["projects/05-tiny-llm"]
+tasks = [
+  "attention",
+  "transformer-block",
+  "tiny-llm",
+]
+
+[[stage]]
+id = "s5"
+months = "13–15"
+studies = "studies/stage-5-llm-engineering"
+projects = ["projects/06-rag-system"]
+tasks = [
+  "tokenizers-hf",
+  "fine-tuning",
+  "rag",
+]
+
+[[stage]]
+id = "s6"
+months = "16–17"
+studies = "studies/stage-6-agents"
+projects = ["projects/07-ai-agent"]
+tasks = [
+  "tool-calling",
+  "memory-planning",
+]
+
+[[stage]]
+id = "s7"
+months = "18–19"
+studies = "studies/stage-7-multimodal"
+projects = ["projects/08-multimodal", "projects/09-conductor"]
+tasks = [
+  "vision",
+  "audio",
+  "conductor",
+]
+
+[[stage]]
+id = "s8"
+months = "20–21"
+studies = "studies/stage-8-systems"
+projects = ["projects/10-ai-runtime", "projects/11-ai-integration"]
+tasks = [
+  "gpu-cuda",
+  "optimization",
+  "distributed-serving",
+]
+
+[[stage]]
+id = "s9"
+months = "22–24"
+studies = "studies/stage-9-research"
+projects = ["projects/12-research", "papers"]
+tasks = [
+  "paper-routine",
+  "reproduce-paper",
+  "own-research",
+]

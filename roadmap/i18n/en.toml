@@ -1,0 +1,293 @@
+# English — reference locale. Every other locale falls back to this file for
+# any key it does not define. Placeholders in {braces} are filled by the script.
+
+[ui]
+stage = "Stage {n}"
+months = "months {months}"
+epic_title = "[S{n}] {title} ({months})"
+task_title = "[S{n}] {title}"
+test_title = "[S{n}] Final test — {title}"
+part_of = "Part of {epic}"
+folders = "Folders"
+tasks = "Tasks"
+study = "🎯 Study"
+practice = "🛠️ Practice"
+done_when = "✅ Done when"
+task_done = [
+  "Note in `{studies}/` explaining it in your own words",
+  "Minimal code in {projects} (when applicable)",
+  "Short summary in `notes/`, linked here",
+]
+epic_done = [
+  "All tasks closed",
+  "Final test passed",
+  "Post in `blog/posts/`",
+]
+test_intro = "Only start this once every task in the stage is closed."
+test_steps = [
+  "Review all notes in `{studies}/`",
+  "Solve without references: {challenge}",
+  "Explain it out loud or write a post in `blog/posts/`",
+  "Scored below 80%? Reopen the weak tasks",
+]
+test_criterion = "**Pass criterion:** you can explain the math **and** implement a simplified version."
+
+[labels]
+epic = "Stage-level tracking issue"
+task = "Small unit of study + practice"
+test = "Final test that closes a stage"
+stage = "Stage {n} — {title}"
+
+# ─── Stage 1 ────────────────────────────────────────────────────────────────
+[stage.s1]
+title = "Math foundations"
+summary = "Linear algebra, calculus and probability — the base for everything that follows."
+challenge = "linear algebra + derivatives + Bayes + gradient descent"
+
+[stage.s1.task.vectors]
+title = "Vectors, scalars & dot product"
+study = "vectors, addition, scaling, dot = Σaᵢbᵢ = |a||b|cosθ, orthogonality"
+practice = "implement `dot` and `matmul` in pure Python (no NumPy), then compare with NumPy"
+
+[stage.s1.task.matrices]
+title = "Matrices: multiplication, transpose, identity, inverse"
+study = "matrices, shapes, transpose, identity, 2×2 inverse"
+practice = "implement 2×2 transpose and inverse, with tests"
+
+[stage.s1.task.linear-systems]
+title = "Linear systems, transformations & vector spaces"
+study = "Ax = b, linear transformations, basis, dimension"
+practice = "solve 2 systems by hand, then in code"
+
+[stage.s1.task.eigen-svd-pca]
+title = "Eigenvalues, eigenvectors, SVD & PCA"
+study = "det(A − λI) = 0, SVD, PCA intuition"
+practice = "simple PCA on a 2D dataset"
+
+[stage.s1.task.derivatives]
+title = "Functions, limits & derivatives"
+study = "limits, definition of the derivative, differentiation rules"
+practice = "numerical vs analytical derivative"
+
+[stage.s1.task.gradient]
+title = "Partial derivatives & gradient"
+study = "∂f/∂x, gradient vector, direction of steepest ascent"
+practice = "plot the gradient field of f(x, y) = x² + y²"
+
+[stage.s1.task.chain-rule]
+title = "Chain rule & Jacobian"
+study = "single- and multi-variable chain rule, Jacobian"
+practice = "backprop through a single neuron by hand"
+
+[stage.s1.task.gradient-descent]
+title = "Optimization & gradient descent"
+study = "gradient descent, learning rate, local vs global minima"
+practice = "run gradient descent on f(x) = x² until it converges"
+
+[stage.s1.task.probability-bayes]
+title = "Probability, conditional probability & Bayes"
+study = "P(A|B), Bayes' theorem"
+practice = "Bayes spam-filter exercise"
+
+[stage.s1.task.distributions]
+title = "Random variables, distributions, mean/variance/expectation"
+study = "discrete vs continuous, normal distribution, expectation"
+practice = "analyse a dataset: mean and variance"
+
+[stage.s1.task.entropy-kl]
+title = "Entropy, cross-entropy & KL divergence"
+study = "H, CE, KL, why cross-entropy works as a loss"
+practice = "compute CE and KL on a 3-class example"
+
+# ─── Stage 2 ────────────────────────────────────────────────────────────────
+[stage.s2]
+title = "Machine Learning"
+summary = "Classic machine learning, implemented from scratch."
+challenge = "train, evaluate and diagnose overfitting on a tabular dataset"
+
+[stage.s2.task.linear-regression]
+title = "Linear regression"
+study = "hypothesis, MSE, normal equation vs gradient descent"
+practice = "from-scratch implementation"
+
+[stage.s2.task.logistic-regression]
+title = "Logistic regression & loss"
+study = "sigmoid, binary cross-entropy, decision boundary"
+practice = "implement it and report metrics"
+
+[stage.s2.task.train-test-split]
+title = "Gradient descent + train/test split"
+study = "batch GD vs SGD, why we hold out data"
+practice = "train and evaluate on an 80/20 split"
+
+[stage.s2.task.knn-naive-bayes]
+title = "k-NN & Naive Bayes"
+study = "distance metrics, choosing k, naive Bayes assumption"
+practice = "simple k-NN implementation"
+
+[stage.s2.task.trees-forests]
+title = "Decision trees & random forests"
+study = "splits, Gini / entropy, ensembles"
+practice = "train a tree and a forest, compare them"
+
+[stage.s2.task.svm-clustering]
+title = "SVM & clustering"
+study = "margin, kernels, k-means"
+practice = "from-scratch k-means"
+
+[stage.s2.task.generalization]
+title = "Overfitting, bias/variance, regularization, CV & metrics"
+study = "L1/L2, k-fold cross-validation, precision/recall/F1"
+practice = "regularization experiment"
+
+# ─── Stage 3 ────────────────────────────────────────────────────────────────
+[stage.s3]
+title = "Deep Learning"
+summary = "PyTorch, MLPs, CNNs and RNNs — plus your own autograd and NN framework."
+challenge = "explain backprop, then train a CNN or RNN end-to-end"
+
+[stage.s3.task.pytorch-basics]
+title = "PyTorch: tensors, autograd, dataloaders"
+study = "tensor ops, autograd, Dataset / DataLoader"
+practice = "tensor exercises notebook"
+
+[stage.s3.task.perceptron-mlp]
+title = "Perceptron, MLP & activations"
+study = "perceptron, MLP, ReLU / sigmoid / tanh"
+practice = "small MLP on MNIST"
+
+[stage.s3.task.cnn]
+title = "CNN: convolution, pooling, feature maps"
+study = "kernels, stride, padding, pooling"
+practice = "one-layer CNN from scratch"
+
+[stage.s3.task.image-classifier]
+title = "Image classifier"
+study = "training loop, data augmentation, evaluation"
+practice = "complete classifier + blog post"
+
+[stage.s3.task.rnn-embeddings]
+title = "RNN / LSTM / GRU & embeddings"
+study = "sequences, vanishing gradients, embeddings"
+practice = "text classifier or generator"
+
+# ─── Stage 4 ────────────────────────────────────────────────────────────────
+[stage.s4]
+title = "Transformers"
+summary = "From attention to your own tiny language model."
+challenge = "derive attention from memory and generate text with your own model"
+
+[stage.s4.task.attention]
+title = "Attention: Q / K / V"
+study = "softmax(QKᵀ/√dₖ)V, self-attention"
+practice = "minimal attention in NumPy"
+
+[stage.s4.task.transformer-block]
+title = "Transformer block"
+study = "multi-head attention, positional encoding, FFN, LayerNorm, residuals"
+practice = "forward pass of a single block"
+
+[stage.s4.task.tiny-llm]
+title = "Tiny LLM: tokenizer → training"
+study = "simple BPE, embeddings, language-model loss, sampling"
+practice = "train a tiny LM and generate text"
+
+# ─── Stage 5 ────────────────────────────────────────────────────────────────
+[stage.s5]
+title = "LLM Engineering"
+summary = "Tokenizers, fine-tuning and retrieval-augmented generation."
+challenge = "fine-tune a model and build RAG that answers questions about your own docs"
+
+[stage.s5.task.tokenizers-hf]
+title = "Tokenizers, Hugging Face & datasets"
+study = "BPE, SentencePiece, Hugging Face Hub, checkpoints"
+practice = "train a tokenizer and load a Hugging Face model"
+
+[stage.s5.task.fine-tuning]
+title = "Fine-tuning with LoRA / QLoRA"
+study = "SFT, PEFT, quantization"
+practice = "LoRA on a tiny model"
+
+[stage.s5.task.rag]
+title = "RAG: chunk → embed → retrieve"
+study = "chunking, vector databases, reranking"
+practice = "end-to-end RAG system"
+
+# ─── Stage 6 ────────────────────────────────────────────────────────────────
+[stage.s6]
+title = "AI Agents"
+summary = "Agents that use tools, keep memory and plan."
+challenge = "a multi-step agent task using tools"
+
+[stage.s6.task.tool-calling]
+title = "Tool calling & the agent loop"
+study = "function calling, the decision → tool → observation loop"
+practice = "agent with 2 tools"
+
+[stage.s6.task.memory-planning]
+title = "Memory, planning & multi-agent"
+study = "memory, reflection, hand-offs between agents"
+practice = "complete agent with memory and planning"
+
+# ─── Stage 7 ────────────────────────────────────────────────────────────────
+[stage.s7]
+title = "Multimodal AI"
+summary = "Vision, audio and video — plus an orchestrator that routes between them."
+challenge = "a user → conductor → tools pipeline"
+
+[stage.s7.task.vision]
+title = "Vision: ViT & CLIP"
+study = "patches, embeddings, contrastive learning"
+practice = "CLIP zero-shot demo"
+
+[stage.s7.task.audio]
+title = "Audio: speech-to-text & text-to-speech"
+study = "Whisper, audio embeddings"
+practice = "STT + TTS pipeline"
+
+[stage.s7.task.conductor]
+title = "Conductor model"
+study = "routing between image / video / text models"
+practice = "a conductor that picks the right tool"
+
+# ─── Stage 8 ────────────────────────────────────────────────────────────────
+[stage.s8]
+title = "AI Systems"
+summary = "GPUs, inference optimization and distributed serving."
+challenge = "optimize inference and back it up with measurements"
+
+[stage.s8.task.gpu-cuda]
+title = "GPU / CUDA basics"
+study = "threads, kernels, memory hierarchy"
+practice = "vector-add kernel"
+
+[stage.s8.task.optimization]
+title = "Optimization: quantization, KV cache, batching"
+study = "quantization, pruning, distillation"
+practice = "latency benchmark"
+
+[stage.s8.task.distributed-serving]
+title = "Distributed training & inference servers"
+study = "data vs model parallelism"
+practice = "serve a model locally"
+
+# ─── Stage 9 ────────────────────────────────────────────────────────────────
+[stage.s9]
+title = "Research Mode"
+summary = "Read, reproduce, research."
+challenge = "defend your own research"
+
+[stage.s9.task.paper-routine]
+title = "Routine: 2–4 papers per week"
+study = "problem → method → experiments"
+practice = "3 reviews in `papers/`"
+
+[stage.s9.task.reproduce-paper]
+title = "Reproduce one paper"
+study = "re-implementing published results"
+practice = "a reproducible repository"
+
+[stage.s9.task.own-research]
+title = "Own research"
+study = "hypothesis → experiments → ablations"
+practice = "publish your results"

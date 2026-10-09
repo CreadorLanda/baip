@@ -1,0 +1,48 @@
+name: Study task
+description: A small unit of study + practice that belongs to a stage.
+title: "[S?] "
+labels: ["task"]
+body:
+  - type: dropdown
+    id: stage
+    attributes:
+      label: Stage
+      options:
+        - "1 — Math foundations"
+        - "2 — Machine Learning"
+        - "3 — Deep Learning"
+        - "4 — Transformers"
+        - "5 — LLM Engineering"
+        - "6 — AI Agents"
+        - "7 — Multimodal AI"
+        - "8 — AI Systems"
+        - "9 — Research Mode"
+    validations:
+      required: true
+  - type: textarea
+    id: study
+    attributes:
+      label: 🎯 Study
+      description: Concepts to understand.
+    validations:
+      required: true
+  - type: textarea
+    id: practice
+    attributes:
+      label: 🛠️ Practice
+      description: What you will build or solve.
+    validations:
+      required: true
+  - type: checkboxes
+    id: done
+    attributes:
+      label: ✅ Done when
+      options:
+        - label: Note in `studies/stage-N-.../` explaining it in your own words
+        - label: Minimal code in `projects/` (when applicable)
+        - label: Short summary in `notes/`, linked here
+  - type: input
+    id: epic
+    attributes:
+      label: Part of
+      description: The stage epic, e.g. `#1`.
