@@ -2,6 +2,7 @@
 # This is the reference locale: every other locale falls back to it.
 
 [ui]
+language = "🇬🇧 English"
 stage = "Stage {n}"
 months = "months {months}"
 epic_title = "[S{n}] {title} ({months})"

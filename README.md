@@ -17,7 +17,7 @@ in your own language.
 
    ```bash
    gh auth login
-   python3 scripts/sync_issues.py --lang en --apply   # or --lang pt
+   python3 scripts/sync_issues.py --lang en --apply   # or --lang pt, or --lang pt,en (bilingual)
    ```
 
 3. Work through the issues in order and close them as you go.

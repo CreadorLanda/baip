@@ -1,6 +1,7 @@
 # Títulos das secções e labels. Qualquer chave em falta usa o valor de en/ui.toml.
 
 [ui]
+language = "🇵🇹 Português"
 stage = "Etapa {n}"
 months = "meses {months}"
 epic_title = "[S{n}] {title} ({months})"
