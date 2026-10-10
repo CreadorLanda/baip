@@ -14,6 +14,9 @@ resources = [
 [[task]]
 id = "pytorch-basics"
 title = "PyTorch: tensors, autograd, dataloaders"
+watch = [
+  { title = "Andrej Karpathy — Building micrograd (autograd from scratch)", url = "https://www.youtube.com/watch?v=VMj-3S1tku0" },
+]
 topics = [
   "Tensors: creation, dtype, device (CPU / GPU)",
   "Shapes, reshape / view, broadcasting",
@@ -41,6 +44,12 @@ print((a + b).shape)    # broadcasting → (3, 4)
 [[task]]
 id = "perceptron-mlp"
 title = "Perceptron, MLP & activations"
+watch = [
+  { title = "3Blue1Brown, Neural Networks ch. 1 — But what is a neural network?", url = "https://www.3blue1brown.com/lessons/neural-networks" },
+  { title = "3Blue1Brown, Neural Networks ch. 2 — Gradient descent, how neural networks learn", url = "https://www.3blue1brown.com/lessons/gradient-descent" },
+  { title = "3Blue1Brown, Neural Networks ch. 3 — What is backpropagation really doing?", url = "https://www.3blue1brown.com/lessons/backpropagation" },
+  { title = "3Blue1Brown, Neural Networks ch. 4 — Backpropagation calculus", url = "https://www.3blue1brown.com/lessons/backpropagation-calculus" },
+]
 topics = [
   "The perceptron and its learning rule",
   "Linear separability and the XOR problem",
@@ -116,6 +125,9 @@ train_tf = T.Compose([
 [[task]]
 id = "rnn-embeddings"
 title = "RNN / LSTM / GRU & embeddings"
+watch = [
+  { title = "Andrej Karpathy — Building makemore (character-level language model)", url = "https://www.youtube.com/watch?v=PaCmpygFfXo" },
+]
 topics = [
   "Sequential data and variable length",
   "Token embeddings",

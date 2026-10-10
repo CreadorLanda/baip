@@ -14,6 +14,11 @@ resources = [
 [[task]]
 id = "vectors"
 title = "Vectors, scalars & dot product"
+watch = [
+  { title = "Essence of Linear Algebra ch. 1 — Vectors, what even are they? (3Blue1Brown)", url = "https://www.3blue1brown.com/lessons/vectors" },
+  { title = "Essence of Linear Algebra ch. 2 — Linear combinations, span, and basis vectors (3Blue1Brown)", url = "https://www.3blue1brown.com/lessons/span" },
+  { title = "Essence of Linear Algebra ch. 9 — Dot products and duality (3Blue1Brown)", url = "https://www.3blue1brown.com/lessons/dot-products" },
+]
 topics = [
   "Scalars vs vectors",
   "Vector addition and scalar multiplication",
@@ -37,6 +42,12 @@ c = (4, −3)  →  a · c = 12 − 12 = 0  →  a ⟂ c   (orthogonal)
 [[task]]
 id = "matrices"
 title = "Matrices: multiplication, transpose, identity, inverse"
+watch = [
+  { title = "Essence of Linear Algebra ch. 3 — Linear transformations and matrices (3Blue1Brown)", url = "https://www.3blue1brown.com/lessons/linear-transformations" },
+  { title = "Essence of Linear Algebra ch. 4 — Matrix multiplication as composition (3Blue1Brown)", url = "https://www.3blue1brown.com/lessons/matrix-multiplication" },
+  { title = "Essence of Linear Algebra ch. 5 — Three-dimensional linear transformations (3Blue1Brown)", url = "https://www.3blue1brown.com/lessons/3d-transformations" },
+  { title = "Essence of Linear Algebra ch. 7 — Inverse matrices, column space, and null space (3Blue1Brown)", url = "https://www.3blue1brown.com/lessons/inverse-matrices" },
+]
 topics = [
   "Matrix as a table of numbers and as a linear map",
   "Shapes and the (m×n)·(n×p) = (m×p) rule",
@@ -65,6 +76,11 @@ Check: A · A⁻¹ = [[1, 0], [0, 1]] ✓
 [[task]]
 id = "linear-systems"
 title = "Linear systems, transformations & vector spaces"
+watch = [
+  { title = "Essence of Linear Algebra ch. 7 — Inverse matrices, column space, and null space (3Blue1Brown)", url = "https://www.3blue1brown.com/lessons/inverse-matrices" },
+  { title = "Essence of Linear Algebra ch. 8 — Nonsquare matrices as transformations between dimensions (3Blue1Brown)", url = "https://www.3blue1brown.com/lessons/nonsquare-matrices" },
+  { title = "Essence of Linear Algebra ch. 13 — Change of basis (3Blue1Brown)", url = "https://www.3blue1brown.com/lessons/change-of-basis" },
+]
 topics = [
   "Systems of linear equations as Ax = b",
   "Gaussian elimination",
@@ -90,6 +106,13 @@ Rotation by 90°:  R = [[0, −1], [1, 0]]   sends (1, 0) → (0, 1)
 [[task]]
 id = "eigen-svd-pca"
 title = "Eigenvalues, eigenvectors, SVD & PCA"
+watch = [
+  { title = "Essence of Linear Algebra ch. 6 — The determinant (3Blue1Brown)", url = "https://www.3blue1brown.com/lessons/determinant" },
+  { title = "Essence of Linear Algebra ch. 14 — Eigenvectors and eigenvalues (3Blue1Brown)", url = "https://www.3blue1brown.com/lessons/eigenvalues" },
+  { title = "Essence of Linear Algebra ch. 15 — A quick trick for computing eigenvalues (3Blue1Brown)", url = "https://www.3blue1brown.com/lessons/quick-eigen" },
+  { title = "Gilbert Strang — MIT 18.06 Lecture 29: Singular value decomposition", url = "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-29-singular-value-decomposition/" },
+  { title = "StatQuest — Principal Component Analysis (PCA), Step-by-Step", url = "https://www.youtube.com/watch?v=FgakZw6K1QQ" },
+]
 topics = [
   "Determinant as area / volume scaling",
   "Eigenvectors and eigenvalues (Av = λv)",
@@ -116,6 +139,12 @@ Check: A · (1, 1) = (3, 3) = 3 · (1, 1) ✓
 [[task]]
 id = "derivatives"
 title = "Functions, limits & derivatives"
+watch = [
+  { title = "Essence of Calculus ch. 1 — The Essence of Calculus (3Blue1Brown)", url = "https://www.3blue1brown.com/lessons/essence-of-calculus" },
+  { title = "Essence of Calculus ch. 2 — The paradox of the derivative (3Blue1Brown)", url = "https://www.3blue1brown.com/lessons/derivatives" },
+  { title = "Essence of Calculus ch. 3 — Power rule through geometry (3Blue1Brown)", url = "https://www.3blue1brown.com/lessons/derivatives-power-rule" },
+  { title = "Essence of Calculus ch. 7 — Limits and the definition of derivatives (3Blue1Brown)", url = "https://www.3blue1brown.com/lessons/limits" },
+]
 topics = [
   "Functions and their graphs",
   "Limits and continuity",
@@ -139,6 +168,9 @@ Numerical check, central difference with h = 1e-5:
 [[task]]
 id = "gradient"
 title = "Partial derivatives & gradient"
+watch = [
+  { title = "3Blue1Brown, Neural Networks ch. 2 — Gradient descent, how neural networks learn", url = "https://www.3blue1brown.com/lessons/gradient-descent" },
+]
 topics = [
   "Functions of several variables f(x, y)",
   "Partial derivatives",
@@ -163,6 +195,10 @@ Steepest descent:           −(8, 7)      ← what training follows
 [[task]]
 id = "chain-rule"
 title = "Chain rule & Jacobian"
+watch = [
+  { title = "Essence of Calculus ch. 4 — Visualizing the chain rule and product rule (3Blue1Brown)", url = "https://www.3blue1brown.com/lessons/chain-rule-and-product-rule" },
+  { title = "3Blue1Brown, Neural Networks ch. 4 — Backpropagation calculus", url = "https://www.3blue1brown.com/lessons/backpropagation-calculus" },
+]
 topics = [
   "Function composition",
   "Chain rule: (f∘g)'(x) = f'(g(x)) · g'(x)",
@@ -190,6 +226,9 @@ dL/dw = dL/da · da/dz · dz/dw ≈ −0.212
 [[task]]
 id = "gradient-descent"
 title = "Optimization & gradient descent"
+watch = [
+  { title = "3Blue1Brown, Neural Networks ch. 2 — Gradient descent, how neural networks learn", url = "https://www.3blue1brown.com/lessons/gradient-descent" },
+]
 topics = [
   "Objective / loss function",
   "Update rule: θ ← θ − η ∇L(θ)",
@@ -213,6 +252,9 @@ x₃ = 3.2 − 0.1·6.4 = 2.56      → every step multiplies x by (1 − 2η) =
 [[task]]
 id = "probability-bayes"
 title = "Probability, conditional probability & Bayes"
+watch = [
+  { title = "3Blue1Brown — Bayes' theorem", url = "https://www.3blue1brown.com/lessons/bayes-theorem" },
+]
 topics = [
   "Sample space, events and the axioms of probability",
   "Joint, marginal and conditional probability",
@@ -236,6 +278,10 @@ P(D|+) = 0.99·0.01 / 0.0594   ≈ 0.167
 [[task]]
 id = "distributions"
 title = "Random variables, distributions, expectation & variance"
+watch = [
+  { title = "3Blue1Brown — Binomial distributions", url = "https://www.3blue1brown.com/lessons/binomial-distributions" },
+  { title = "3Blue1Brown — But what is the Central Limit Theorem?", url = "https://www.3blue1brown.com/lessons/clt" },
+]
 topics = [
   "Discrete vs continuous random variables",
   "PMF, PDF and CDF",
@@ -258,6 +304,9 @@ Normal N(μ, σ²):  ~68% of values in μ ± σ,  ~95% in μ ± 2σ
 [[task]]
 id = "entropy-kl"
 title = "Entropy, cross-entropy & KL divergence"
+watch = [
+  { title = "3Blue1Brown — Solving Wordle using information theory (entropy)", url = "https://www.3blue1brown.com/lessons/wordle" },
+]
 topics = [
   "Information / surprise: −log p",
   "Entropy H(p) = −Σ p log p",

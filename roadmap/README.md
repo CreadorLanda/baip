@@ -26,7 +26,7 @@ means what you learn matches what you will read and search for. Everything that
 | Issue | Sections |
 |-------|----------|
 | **Epic** (one per stage) | summary · folders · task list · resources · done when |
-| **Task** | 📚 topics · 🎯 goals · 💡 worked example · 🛠️ exercises (with answers) · 🧠 self-check · 📦 deliverables |
+| **Task** | 📚 topics · 📺 watch (optional) · 🎯 goals · 💡 worked example · 🛠️ exercises (with answers) · 🧠 self-check · 📦 deliverables |
 | **Final test** | 📝 exam problems · ✅ wrap-up · pass criterion |
 
 ## Create the issues in your own repo
@@ -64,7 +64,8 @@ python3 scripts/sync_issues.py --preview s1.vectors --lang pt  # print one issue
 ## Change the roadmap
 
 - **Edit text** → change it in `stages/` (technical) or `i18n/<lang>/` (explanations), then sync.
-- **Add a task** → add a `[[task]]` with `id`, `title`, `topics` and `example`
+- **Add a task** → add a `[[task]]` with `id`, `title`, `topics`, `example` and
+  optionally `watch = [{ title = "...", url = "..." }]`
   to the stage file, then a `[task.<id>]` with `goals`, `exercises` and `check`
   to `i18n/en/<stage>.toml` (and any other locale).
 - **Add a stage** → add `stages/sN-name.toml` and `i18n/en/sN-name.toml`.

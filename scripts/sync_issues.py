@@ -159,6 +159,7 @@ def build_items(lang: str) -> list[Item]:
                           studies=studies, projects=projects):
                 deliverables = [line.format(studies=studies, projects=projects)
                                 for line in ui["task_done"]]
+                watch = [f"[{w['title']}]({w['url']})" for w in task.get("watch", [])]
                 if not full:
                     return "\n".join([
                         *section(ui["goals"], *bullets(tt["goals"])),
@@ -170,6 +171,7 @@ def build_items(lang: str) -> list[Item]:
                     f"{header} · {ui['part_of'].format(epic=num[sid])}",
                     "",
                     *section(ui["topics"], *bullets(task["topics"])),
+                    *(section(ui["watch"], *bullets(watch)) if watch else []),
                     *section(ui["goals"], *bullets(tt["goals"])),
                     *section(ui["example"], task["example"].strip()),
                     *section(ui["exercises"], *bullets(tt["exercises"], checkbox=True)),
