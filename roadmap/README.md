@@ -40,6 +40,14 @@ python3 scripts/sync_issues.py --lang en            # dry run: shows what would 
 python3 scripts/sync_issues.py --lang en --apply    # creates labels + 9 epics, 40 tasks, 9 final tests
 ```
 
+**Several languages in one issue:** pass a comma-separated list. The first
+language is the main body (with the checkboxes); every other one is added as a
+collapsible section with its translated goals, exercises and self-checks:
+
+```bash
+python3 scripts/sync_issues.py --lang pt,en --apply   # Portuguese + 🇬🇧 English
+```
+
 Re-running is safe: every issue has a hidden `<!-- roadmap-id: ... -->` marker,
 so the script updates existing issues instead of duplicating them. Closed
 issues stay closed — but re-running **overwrites the body**, so ticked

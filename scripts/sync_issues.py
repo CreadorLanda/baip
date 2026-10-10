@@ -15,6 +15,7 @@ Usage:
     python3 scripts/sync_issues.py --preview --lang pt     # print issues, no GitHub
     python3 scripts/sync_issues.py --lang pt               # dry run against GitHub
     python3 scripts/sync_issues.py --lang pt --apply       # create / update issues
+    python3 scripts/sync_issues.py --lang pt,en --apply    # Portuguese + collapsible English
 
 Requires Python 3.11+ and an authenticated GitHub CLI (`gh auth login`).
 """
@@ -26,6 +27,7 @@ import json
 import re
 import subprocess
 import sys
+import time
 import tomllib
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -83,6 +85,14 @@ def load_text(lang: str, name: str) -> dict:
 
 
 # ─── Model ────────────────────────────────────────────────────────────────────
+#
+# Each render function takes the issue-number map and `full`:
+#   full=True   the complete issue in that language
+#   full=False  only the translated parts (no topics, examples, resources,
+#               links or marker) — used for the extra-language sections
+
+Render = Callable[[dict[str, str], bool], str]
+
 
 @dataclass
 class Item:
@@ -90,7 +100,7 @@ class Item:
     kind: str  # epic | task | test
     title: str
     labels: list[str]
-    render: Callable[[dict[str, str]], str] = field(repr=False)
+    render: Render = field(repr=False)
 
 
 def bullets(lines: list[str], checkbox: bool = False) -> list[str]:
@@ -120,8 +130,11 @@ def build_items(lang: str) -> list[Item]:
         header = f"**{ui['stage'].format(n=n)} — {stage['title']}** · {months}"
         resources = [f"[{r['title']}]({r['url']})" for r in stage.get("resources", [])]
 
-        def epic_body(num, sid=sid, text=text, folders=folders, resources=resources,
+        def epic_body(num, full=True, sid=sid, text=text, folders=folders, resources=resources,
                       children=task_ids + [test_id]):
+            if not full:
+                return "\n".join([text["summary"], "",
+                                   *section(ui["done_when"], *bullets(ui["epic_done"]))]).strip()
             return "\n".join([
                 text["summary"],
                 "",
@@ -142,10 +155,17 @@ def build_items(lang: str) -> list[Item]:
         for task, tid in zip(stage["task"], task_ids):
             tt = text.get("task", {}).get(task["id"], {})
 
-            def task_body(num, sid=sid, tid=tid, task=task, tt=tt, header=header,
+            def task_body(num, full=True, sid=sid, tid=tid, task=task, tt=tt, header=header,
                           studies=studies, projects=projects):
                 deliverables = [line.format(studies=studies, projects=projects)
                                 for line in ui["task_done"]]
+                if not full:
+                    return "\n".join([
+                        *section(ui["goals"], *bullets(tt["goals"])),
+                        *section(ui["exercises"], *bullets(tt["exercises"])),
+                        *section(ui["check"], *bullets(tt["check"])),
+                        *section(ui["deliverables"], *bullets(deliverables)),
+                    ]).strip()
                 return "\n".join([
                     f"{header} · {ui['part_of'].format(epic=num[sid])}",
                     "",
@@ -164,16 +184,22 @@ def build_items(lang: str) -> list[Item]:
                 labels=["task", stage_label], render=task_body,
             ))
 
-        def test_body(num, sid=sid, test_id=test_id, text=text, header=header, studies=studies):
+        def test_body(num, full=True, sid=sid, test_id=test_id, text=text, header=header,
+                      studies=studies):
             wrap_up = [line.format(studies=studies) for line in ui["test_wrap_up"]]
+            body = [
+                ui["test_intro"],
+                "",
+                *section(ui["exam"], *bullets(text["exam"], checkbox=full)),
+                *section(ui["wrap_up"], *bullets(wrap_up, checkbox=full)),
+                ui["test_criterion"],
+            ]
+            if not full:
+                return "\n".join(body).strip()
             return "\n".join([
                 f"{header} · {ui['part_of'].format(epic=num[sid])}",
                 "",
-                ui["test_intro"],
-                "",
-                *section(ui["exam"], *bullets(text["exam"], checkbox=True)),
-                *section(ui["wrap_up"], *bullets(wrap_up, checkbox=True)),
-                ui["test_criterion"],
+                *body,
                 "",
                 MARKER.format(test_id),
             ])
@@ -185,6 +211,28 @@ def build_items(lang: str) -> list[Item]:
         ))
 
     return items
+
+
+def build_issues(langs: list[str]) -> list[Item]:
+    """Issues in langs[0]; every extra language is appended as a collapsible section.
+
+    Checkboxes live only in the main language so progress is tracked in one place.
+    """
+    primary = build_items(langs[0])
+    extras = [(load_text(lang, "ui")["ui"]["language"], build_items(lang)) for lang in langs[1:]]
+    if not extras:
+        return primary
+
+    combined = []
+    for i, item in enumerate(primary):
+        def render(num, full=True, item=item, others=[(name, items[i]) for name, items in extras]):
+            body = item.render(num, full)
+            marker = MARKER.format(item.id)
+            blocks = [f"<details>\n<summary><b>{name}</b></summary>\n\n{other.render(num, False)}\n\n</details>"
+                      for name, other in others]
+            return body.replace(marker, "\n\n".join(blocks) + "\n\n" + marker)
+        combined.append(Item(item.id, item.kind, item.title, item.labels, render))
+    return combined
 
 
 def build_labels(lang: str) -> dict[str, tuple[str, str]]:
@@ -244,11 +292,21 @@ def lookup(data: dict, path: tuple[str, ...]):
 
 # ─── GitHub ───────────────────────────────────────────────────────────────────
 
-def gh(*args: str, input: str | None = None) -> str:
-    result = subprocess.run(["gh", *args], input=input, capture_output=True, text=True)
-    if result.returncode != 0:
-        sys.exit(f"gh {' '.join(args[:3])} failed:\n{result.stderr.strip()}")
-    return result.stdout
+NETWORK_ERRORS = ("timeout", "connection reset", "error connecting", "dial tcp", "EOF", "502", "503", "504")
+
+
+def gh(*args: str, input: str | None = None, retries: int = 5) -> str:
+    """Run the GitHub CLI. Network failures are retried — pass retries=1 for
+    calls that are not safe to repeat (e.g. creating an issue)."""
+    for attempt in range(1, retries + 1):
+        result = subprocess.run(["gh", *args], input=input, capture_output=True, text=True)
+        if result.returncode == 0:
+            return result.stdout
+        transient = any(e in result.stderr for e in NETWORK_ERRORS)
+        if not transient or attempt == retries:
+            break
+        time.sleep(2 * attempt)
+    sys.exit(f"gh {' '.join(args[:3])} failed:\n{result.stderr.strip()}")
 
 
 def repo_args(repo: str | None) -> list[str]:
@@ -261,9 +319,9 @@ def fetch_issues(repo: str | None) -> list[dict]:
     return json.loads(out)
 
 
-def sync(lang: str, repo: str | None, apply: bool, map_file: Path | None) -> None:
-    items = build_items(lang)
-    labels = build_labels(lang)
+def sync(langs: list[str], repo: str | None, apply: bool, map_file: Path | None) -> None:
+    items = build_issues(langs)
+    labels = build_labels(langs[0])
     issues = {i["number"]: i for i in fetch_issues(repo)}
 
     by_id: dict[str, dict] = {}
@@ -277,7 +335,7 @@ def sync(lang: str, repo: str | None, apply: bool, map_file: Path | None) -> Non
             by_id.setdefault(rid, issues[number])
 
     mode = "APPLY" if apply else "DRY RUN (add --apply to make changes)"
-    print(f"{mode} · lang={lang} · {len(items)} roadmap items · {len(by_id)} already linked\n")
+    print(f"{mode} · lang={','.join(langs)} · {len(items)} roadmap items · {len(by_id)} already linked\n")
 
     print(f"labels  {', '.join(labels)}")
     if apply:
@@ -293,7 +351,7 @@ def sync(lang: str, repo: str | None, apply: bool, map_file: Path | None) -> Non
         print(f"create  {item.title}")
         if apply:
             url = gh("issue", "create", *repo_args(repo), "--title", item.title,
-                     "--body", MARKER.format(item.id), *sum([["--label", l] for l in item.labels], []))
+                     "--body", MARKER.format(item.id), *sum([["--label", l] for l in item.labels], []), retries=1)
             number = int(url.strip().rsplit("/", 1)[-1])
             by_id[item.id] = {"number": number, "title": item.title, "body": "", "labels": []}
             numbers[item.id] = f"#{number}"
@@ -322,8 +380,8 @@ def sync(lang: str, repo: str | None, apply: bool, map_file: Path | None) -> Non
     print("\ndone." if apply else "\nNothing was changed.")
 
 
-def preview(lang: str, only: str | None) -> None:
-    items = build_items(lang)
+def preview(langs: list[str], only: str | None) -> None:
+    items = build_issues(langs)
     numbers = {item.id: f"#<{item.id}>" for item in items}
     shown = [i for i in items if only is None or i.id == only or i.id.startswith(f"{only}.")]
     for item in shown:
@@ -334,7 +392,9 @@ def preview(lang: str, only: str | None) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--lang", default=BASE_LANG, help=f"issue language: {', '.join(available_langs())}")
+    parser.add_argument("--lang", default=BASE_LANG,
+                        help=f"issue language(s), comma-separated; extra ones are added as collapsible "
+                             f"sections, e.g. pt,en (available: {', '.join(available_langs())})")
     parser.add_argument("--repo", help="OWNER/REPO (default: the current repo)")
     parser.add_argument("--check", action="store_true", help="validate stages and locales, then exit")
     parser.add_argument("--preview", nargs="?", const="", metavar="ID",
@@ -344,12 +404,13 @@ def main() -> None:
                         help='JSON {"roadmap-id": issue_number} to adopt issues created without markers')
     args = parser.parse_args()
 
+    langs = [lang.strip() for lang in args.lang.split(",") if lang.strip()]
     if args.check:
         sys.exit(check())
     if args.preview is not None:
-        preview(args.lang, args.preview or None)
+        preview(langs, args.preview or None)
     else:
-        sync(args.lang, args.repo, args.apply, args.map)
+        sync(langs, args.repo, args.apply, args.map)
 
 
 if __name__ == "__main__":

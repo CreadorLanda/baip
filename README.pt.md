@@ -17,7 +17,7 @@ gerar no teu próprio repositório, na tua língua.
 
    ```bash
    gh auth login
-   python3 scripts/sync_issues.py --lang pt --apply   # ou --lang en
+   python3 scripts/sync_issues.py --lang pt --apply   # ou --lang en, ou --lang pt,en (bilingue)
    ```
 
 3. Segue as issues por ordem e fecha-as à medida que avanças.
